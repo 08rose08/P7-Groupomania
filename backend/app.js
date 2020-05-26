@@ -1,23 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 //const mongoose = require('mongoose');
-const routes = require('./routes/routes');
-const path = require('path');
-
-
 const app = express();
-
-/*mongoose.connect(' mongodb+srv://Rewri:mdpRewri@cluster0-1vlb0.mongodb.net/test?retryWrites=true&w=majority',
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
-*/
-
- 
-
-
-
+const routesPosts = require('./routes/routesPosts');
+const routesUsers = require('./routes/routesUsers');
+//const path = require('path');
 
 app.use(bodyParser.json());
 
@@ -28,9 +15,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api/posts', routes);
-app.use('/api/auth', routes);
-app.use('/images', express.static(path.join(__dirname, 'images')));
-
-
+app.use('/api/posts', routesPosts);
+app.use('/api/auth', routesUsers);
+//app.use('/images', express.static(path.join(__dirname, 'images')));
 module.exports = app;
