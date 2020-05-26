@@ -1,16 +1,29 @@
 <template>
   <div id="app">
-    <Accueil/>
+    <auth v-if="this.$store.state.afficheAuth"/> 
+    <accueil v-if="!this.$store.state.afficheAuth"/>
   </div>
 </template>
 
 <script>
-import Accueil from './components/Accueil.vue'
+import Auth from "./components/Auth.vue"
+import Accueil from "./components/Accueil.vue"
 
 export default {
-  name: 'App',
+  name: "App",
+  data(){
+    return{
+      //afficheAuth: true,
+      //afficheAccueil: false,
+      
+    }
+  },
   components: {
-    Accueil
+    "auth": Auth,
+    "accueil": Accueil
+  },
+  methods: {
+    
   }
 }
 </script>

@@ -18,7 +18,7 @@
 import axios from "axios"
 
 export default {
-    name : 'Login',
+    name : "Login",
     data(){
         return{
             dataLogin: {
@@ -30,16 +30,29 @@ export default {
         }
     },
     methods: {
+        
+    
         sendLogin(){
             axios
-            .post('http://localhost:3000/api/auth/login', this.dataLogin)
+            .post("http://localhost:3000/api/auth/login", this.dataLogin)
             .then(response => {
-                console.log(response);
+                //console.log(response);
+                //console.log(response.data.userId);
+                //console.log(response.data.token);
+                
+                this.$store.state.authObj.userId=response.data.userId;
+                this.$store.state.authObj.token=response.data.token;
+                console.log(this.$store.state.authObj);
+                this.$store.state.afficheAuth=false;
+                
+                             
+                
             })
             .catch(error => {
                 console.log(error); //affiche pas le message 'normalement' envoyé par le back
                 this.message=error;
-                this.msg=true   
+                this.msg=true 
+
             });
             
 
