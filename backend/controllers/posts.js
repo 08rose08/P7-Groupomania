@@ -19,12 +19,11 @@ exports.createPost = (req, res, next) => {
     })
 }
 
-// et le nombre de commentaires par post ? et le nom/prenom lié à l'userId
+// et le nombre de commentaires par post ?
 exports.getAllPosts = (req, res, next) => {
-    // ORDER BY descending ou ascending ? DESC = la plus vielle la plus en bas ?
     console.log("consoleLog du back dans getAllPosts");
     //let sql = "SELECT * FROM posts ORDER BY date DESC";
-    let sql = "SELECT posts.id, posts.title, posts.content, posts.date, posts.likes, users.lastName, users.firstName FROM posts JOIN users ON posts.userId = users.id ORDER BY posts.date DESC";
+    let sql = "SELECT posts.id, posts.userId, posts.title, posts.content, posts.date, posts.likes, users.lastName, users.firstName FROM posts JOIN users ON posts.userId = users.id ORDER BY posts.date DESC";
     connectdb.query(sql, function (err, result, fields) {
         if (err) throw err;
         //console.log(result);
@@ -32,10 +31,10 @@ exports.getAllPosts = (req, res, next) => {
     });
 }
 
-exports.getOnePost = (req, res, next) => {
+exports.getComments = (req, res, next) => {
     let postId = req.params.id;
     //let sql = "SELECT * FROM posts WHERE id = ?";
-    let sql = "SELECT * FROM posts LEFT JOIN comments ON posts.id = comments.postId WHERE posts.id = ? ORDER BY comments.date";
+    let sql = "SELECT comments.comContent, comments.date, comments.id, users.firstName, users.lastName FROM comments JOIN users on comments.userId = users.id WHERE postId = ? ORDER BY date";
     let sqlInserts = [postId];
     sql = mysql.format(sql, sqlInserts);
     connectdb.query(sql, function (err, result, fields){

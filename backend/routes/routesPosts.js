@@ -9,7 +9,7 @@ try{
     router.get('/', postsCtrl.getAllPosts);
     //router.post('/', postsCtrl.createPost);
 
-    router.get('/:id', postsCtrl.getOnePost);
+    router.get('/:id/comments', postsCtrl.getComments);
     //router.put('/:id', postsCtrl.updatePost);
     //router.delete('/:id', auth, postsCtrl.deletePost);
 
