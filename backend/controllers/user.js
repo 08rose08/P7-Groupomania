@@ -39,7 +39,7 @@ exports.login = (req, res, next) => {
         if (err) throw err;
         // envoyer message utilisateur inexistant ?;
         bcrypt.compare(password, result[0].password) // result.password ?? result[0].password ?
-            .then(valid => {
+            .then(valid => { 
                 if (!valid) {return res.status(400).json({ error: 'Incorrect password !' })}
                 res.status(200).json({
                     userId: result[0].id, // result[0].id?
@@ -57,16 +57,19 @@ exports.login = (req, res, next) => {
 exports.seeMyProfile = (req, res, next) => {
     //let userId = dans le token ? decodeToken ?
     // récupérer le userID puis aller chercher la ligne correspondante et la renvoyer
-    let token = req.headers.authorization.split(' ')[1];
+    /*let token = req.headers.authorization.split(' ')[1];
     let decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    let userId = decodedToken.userId;
-    let sql = "SELECT * FROM users WHERE id=?"; // sans le password ?
+    let userId = decodedToken.userId;*/
+    console.log(req.params.id);
+    console.log("consoleLog du back dans seeMyProfile");
+    let userId=req.params.id;
+    let sql = "SELECT firstName, lastName, email FROM users WHERE id=?"; // sans le password 
     let sqlInserts = [userId];
     sql = mysql.format(sql,sqlInserts);
     connectdb.query(sql, function(err, result){
         if (err) throw err;
         res.status(200).json(result);
-    })    
+    }) 
 }
 
 exports.deleteUser = (req, res, next) => {

@@ -29,9 +29,9 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
+#app{
   background-color: bisque;
-  text-align: center;
+  
 }
 
 </style>

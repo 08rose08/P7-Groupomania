@@ -12,6 +12,7 @@ export default {
 
 <style lang="scss">
     .head {
+        color: black;
         background-color: orangered;
         position: fixed;
         top: 0;

@@ -10,7 +10,7 @@ exports.createPost = (req, res, next) => {
     let postObject = JSON.parse(req.body.post);
     let title = postObject.title;
     let content = postObject.content;
-    let sql = "INSERT INTO posts VALUES(NULL, ?, ?, ?, NULL, 0)";
+    let sql = "INSERT INTO posts VALUES(NULL, ?, ?, ?, NULL, NULL)";
     let sqlInserts = [userId, title, content];
     sql = mysql.format(sql, sqlInserts);
     connectdb.query(sql, function (err, result, fields){
@@ -19,12 +19,15 @@ exports.createPost = (req, res, next) => {
     })
 }
 
-// et le nombre de commentaires par post ?
+// et le nombre de commentaires par post ? et le nom/prenom lié à l'userId
 exports.getAllPosts = (req, res, next) => {
     // ORDER BY descending ou ascending ? DESC = la plus vielle la plus en bas ?
-    connectdb.query("SELECT * FROM posts ORDER BY date DESC", function (err, result, fields) {
+    console.log("consoleLog du back dans getAllPosts");
+    //let sql = "SELECT * FROM posts ORDER BY date DESC";
+    let sql = "SELECT posts.id, posts.title, posts.content, posts.date, posts.likes, users.lastName, users.firstName FROM posts JOIN users ON posts.userId = users.id ORDER BY posts.date DESC";
+    connectdb.query(sql, function (err, result, fields) {
         if (err) throw err;
-        console.log(result);
+        //console.log(result);
         res.status(200).json(result);
     });
 }

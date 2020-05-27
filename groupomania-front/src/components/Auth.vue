@@ -1,9 +1,9 @@
 <template>
-    <div id="auth">
-        <img id="auth__logo" @click="afficheBoutons" alt="Groupomania logo" src="../assets/logo.png">
-        <div id="auth__boutons" v-if="afficheBtns">
-            <button @click="afficheLogin">Login</button>
-            <button @click="afficheSignup">Signup</button>
+    <div id="auth" class="auth">
+        <img class="auth__logo" @click="afficheBoutons" alt="Groupomania logo" src="../assets/logo.png">
+        <div class="auth__boutons" v-if="afficheBtns">
+            <button class="auth__boutons--ind" @click="afficheLogin">Login</button>
+            <button class="auth__boutons--ind" @click="afficheSignup">Signup</button>
         </div>
         <login v-if="loginForm"/>
         <signup v-if="signupForm"/>
@@ -44,7 +44,8 @@
 </script>
 
 <style lang="scss">
-    #auth{
+    .auth {
+        text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -54,10 +55,10 @@
         }
         &__boutons{
             display: flex;
+            &--ind{
+                margin: 5%;
+            }
         }
-    }
-    button{
-        margin: 2%
     }
     
 </style>
