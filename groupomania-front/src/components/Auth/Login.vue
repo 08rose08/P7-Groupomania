@@ -40,7 +40,7 @@ export default {
                     this.$store.state.authObj.userId=response.data.userId;
                     this.$store.state.authObj.token=response.data.token;
                     //console.log(this.$store.state.authObj);
-                    this.$store.state.afficheAuth=false;  
+                    this.$router.push('/Accueil');  
                 })
                 .catch(error => {
                     console.log(error); //affiche pas le message 'normalement' envoyé par le back

@@ -1,6 +1,8 @@
 <template>
-    <div class='head'>
-        Mon header
+    <div class="head">
+        <nav>
+            <router-link to="/Accueil">Accueil</router-link>
+        </nav>
     </div>
 </template>
 
