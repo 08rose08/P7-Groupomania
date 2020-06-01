@@ -21,11 +21,11 @@ export default {
         }
     },
     mounted() { 
-        console.log("mounted");
+        //console.log("mounted");
         axios.get("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId)
             .then(response => {
-                console.log("consoleLog du front");
-                console.log(response);
+                //console.log("consoleLog du front");
+                //console.log(response);
             this.mail=response.data[0].email;
             this.prenom=response.data[0].firstName;
             this.nom=response.data[0].lastName;

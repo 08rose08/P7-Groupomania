@@ -30,7 +30,7 @@ export default {
 
 <style lang="scss">
 #app{
-  background-color: bisque;
+  background-color: black
   
 }
 

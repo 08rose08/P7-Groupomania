@@ -42,7 +42,7 @@ export default {
             axios
             .post('http://localhost:3000/api/auth/signup', this.dataSignup)
             .then(response => {
-                console.log(response);
+                //console.log(response);
                 this.message=response.data.message;
                 this.form=false;
                 this.msg=true

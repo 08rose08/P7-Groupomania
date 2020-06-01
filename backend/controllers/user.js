@@ -9,7 +9,6 @@ exports.signup = (req, res, next) => {
 	let password = req.body.password;
 	let firstName = req.body.firstName;
     let lastName = req.body.lastName;
-    //console.log(lastName);  // !!!!!! ne fonctionne pas sans
     bcrypt.hash(password, 10)
         .then (hash => {
             let sql = "INSERT INTO users VALUES(NULL, ?, ?, ?, ?)";
@@ -60,8 +59,8 @@ exports.seeMyProfile = (req, res, next) => {
     /*let token = req.headers.authorization.split(' ')[1];
     let decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     let userId = decodedToken.userId;*/
-    console.log(req.params.id);
-    console.log("consoleLog du back dans seeMyProfile");
+    //console.log(req.params.id);
+    //console.log("consoleLog du back dans seeMyProfile");
     let userId=req.params.id;
     let sql = "SELECT firstName, lastName, email FROM users WHERE id=?"; // sans le password 
     let sqlInserts = [userId];

@@ -39,7 +39,7 @@ export default {
                     
                     this.$store.state.authObj.userId=response.data.userId;
                     this.$store.state.authObj.token=response.data.token;
-                    console.log(this.$store.state.authObj);
+                    //console.log(this.$store.state.authObj);
                     this.$store.state.afficheAuth=false;  
                 })
                 .catch(error => {
