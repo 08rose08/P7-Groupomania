@@ -2,8 +2,8 @@
     <div id="auth" class="auth">
         <img class="auth__logo" @click="afficheBoutons" alt="Groupomania logo" src="../assets/logo.png">
         <div class="auth__boutons" v-if="afficheBtns">
-            <button class="auth__boutons--ind" @click="afficheLogin">Login</button>
-            <button class="auth__boutons--ind" @click="afficheSignup">Signup</button>
+            <v-btn class="auth__boutons--ind" @click="afficheLogin">Login</v-btn>
+            <v-btn class="auth__boutons--ind" @click="afficheSignup">Signup</v-btn>
         </div>
         <login v-if="loginForm"/>
         <signup v-if="signupForm"/>

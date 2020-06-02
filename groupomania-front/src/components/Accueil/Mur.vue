@@ -1,29 +1,31 @@
 <template>
-    <div id="mur" class="mur">
+    <v-app id="mur" class="mur">
         <top-header/>
         <h1>Le mur</h1>
-        <button @click="afficheForm">Créer un post</button>
+        <v-btn @click="afficheForm">Créer un post</v-btn>
         <form-post v-if="afficheFrm"/>
         <div v-if="affichePsts">
-            <div class="mur__post" v-for="(post, index) in allPosts" v-bind:key="index">
-                <h2 class="mur__post__title">{{ post.title }}</h2>
-                <p class="mur__post__name">By {{ post.firstName }} {{ post.lastName }}, le {{ post.date }}</p>
+            <v-card class="mur__post" v-for="(post, index) in allPosts" v-bind:key="index">
+                <v-card-title>
+                    <h2 class="mur__post__title">{{ post.title }}</h2>
+                </v-card-title>
+                <v-card-subtitle class=" mur__post__name">By {{ post.firstName }} {{ post.lastName }}, le {{ post.date }}</v-card-subtitle>
                 <div class="mur__post__manage" v-if="post.id === $store.state.authObj.userId">
-                    <button>Supprimer</button>
-                    <button>Modifier</button>
+                    <v-btn>Supprimer</v-btn>
+                    <v-btn>Modifier</v-btn>
                 </div>
-                <p class="mur__post__content">{{ post.content }}</p>
-                <p>Like.s : {{ post.likes }} <button>Like</button> <button @click="afficheCom(post.id)">Commentaires : {{ nbCom[post.id-1].nbComments }}</button></p>
+                <v-card-text class="v-card-text mur__post__content">{{ post.content }}</v-card-text>
+                <v-card-text>Like.s : {{ post.likes }} <v-btn>Like</v-btn> <v-btn @click="afficheCom(post.id)">Commentaires : {{ nbCom[post.id-1].nbComments }}</v-btn></v-card-text>
                 
                 <div class="mur__comments" v-if="postId === post.id">
-                    <div class="mur__comments--ind" v-for="(comment, index) in allComments" v-bind:key="index">
-                        <p class="mur__comments__name">Le {{ comment.date }}, {{ comment.firstName }} {{ comment.lastName }} commente :</p>
-                        <p class="mur__comments__content">{{ comment.comContent }}</p>
-                    </div>
+                    <v-card class="mur__comments--ind" v-for="(comment, index) in allComments" v-bind:key="index">
+                        <v-card-subtitle class="mur__comments__name">Le {{ comment.date }}, {{ comment.firstName }} {{ comment.lastName }} commente :</v-card-subtitle>
+                        <v-card-text class="mur__comments__content">{{ comment.comContent }}</v-card-text>
+                    </v-card>
                 </div>
-            </div>
+            </v-card>
         </div>
-    </div>
+    </v-app>
 </template>
 
 <script>
@@ -83,7 +85,7 @@ export default {
         "top-header": TopHeader, 
         "form-post": FormPost,
     },
-    mounted(){
+    created(){
         //console.log("mounted"); 
         axios.get("http://localhost:3000/api/posts")
             .then(response => {
@@ -106,7 +108,7 @@ export default {
 </script>
 
 <style lang="scss">
-    .mur{
+    /*.mur{
         padding: 2%;
         color : rgb(255,215,215);
         &__post{
@@ -151,5 +153,5 @@ export default {
                 margin: 2% 0 0 0;
             }
         }
-    }
+    }*/
 </style>

@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 //import Home from '../views/Home.vue'
 import Auth from '../components/Auth.vue'
 import Accueil from '../components/Accueil.vue'
+import Profil from '../components/Accueil/Profil.vue'
+import Mur from '../components/Accueil/Mur.vue'
 
 
 Vue.use(VueRouter)
@@ -19,6 +21,16 @@ Vue.use(VueRouter)
     component: Accueil
   },
   {
+    path: '/Accueil/Profil',
+    name: 'Profil',
+    component: Profil
+  },
+  {
+    path: '/Accueil/Mur',
+    name: 'Mur',
+    component: Mur
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -29,7 +41,8 @@ Vue.use(VueRouter)
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history'
 })
 
 export default router
