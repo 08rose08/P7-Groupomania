@@ -28,9 +28,9 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
     let email = req.body.email;
-    if (email===undefined){res.status(400).json({error: 'Undefined email'})};
+    if (email === undefined){res.status(400).json({error: 'Undefined email'})};
     let password = req.body.password;
-    if (password===undefined){res.status(400).json({error: 'Undefined password'})};
+    if (password === undefined){res.status(400).json({error: 'Undefined password'})};
     let sql = "SELECT * FROM users WHERE email=?";
     let sqlInserts = [email];
     sql = mysql.format(sql, sqlInserts);
@@ -61,7 +61,7 @@ exports.seeMyProfile = (req, res, next) => {
     let userId = decodedToken.userId;*/
     //console.log(req.params.id);
     //console.log("consoleLog du back dans seeMyProfile");
-    let userId=req.params.id;
+    let userId = req.params.id;
     let sql = "SELECT firstName, lastName, email FROM users WHERE id=?"; // sans le password 
     let sqlInserts = [userId];
     sql = mysql.format(sql,sqlInserts);
@@ -72,10 +72,11 @@ exports.seeMyProfile = (req, res, next) => {
 }
 
 exports.deleteUser = (req, res, next) => {
-    let token = req.headers.authorization.split(' ')[1];
-    let decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    let userId = decodedToken.userId;
+    //let token = req.headers.authorization.split(' ')[1];
+    //let decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    //let userId = decodedToken.userId;
     // conditions de delete, posts, comments (clé)
+    let userId = req.params.id;
     let sql = "DELETE FROM users WHERE id=?"; 
     let sqlInserts = [userId];
     sql = mysql.format(sql,sqlInserts);
@@ -84,4 +85,8 @@ exports.deleteUser = (req, res, next) => {
         res.status(200).json({message : 'User deleted.'});
     }) 
 }
+ 
+/*exports.uptadeUser= (req, res, next) => {
+
+}*/
 

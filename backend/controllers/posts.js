@@ -35,7 +35,7 @@ exports.getAllPosts = (req, res, next) => {
 exports.getComments = (req, res, next) => {
     let postId = req.params.id;
     //let sql = "SELECT * FROM posts WHERE id = ?";
-    let sql = "SELECT comments.comContent, comments.date, comments.id, users.firstName, users.lastName FROM comments JOIN users on comments.userId = users.id WHERE postId = ? ORDER BY date";
+    let sql = "SELECT comments.comContent, comments.date, comments.id, comments.userId, users.firstName, users.lastName FROM comments JOIN users on comments.userId = users.id WHERE postId = ? ORDER BY date";
     let sqlInserts = [postId];
     sql = mysql.format(sql, sqlInserts);
     connectdb.query(sql, function (err, result, fields){
@@ -43,15 +43,15 @@ exports.getComments = (req, res, next) => {
         //console.log(result);
         res.status(200).json(result);
     })
-}
-exports.countComments = (req, res, next) => {
+} 
+/*exports.countComments = (req, res, next) => {
     let sql = "SELECT posts.id, COUNT(comments.id) AS nbComments FROM comments RIGHT JOIN posts ON comments.postId = posts.id GROUP BY posts.id";
     connectdb.query(sql, function (err, result, fields){
         if (err) throw err;
         //console.log(result);
         res.status(200).json(result);
     })
-}
+}*/
 
 exports.updatePost = (req, res, next) => {
     let updatedPost = JSON.parse(req.body.post);
@@ -77,15 +77,16 @@ exports.deletePost = (req, res, next) => {
         res.status(200).json({message : 'Post deleted !'});
     })
 }
-
+ 
 exports.createComment = (req, res, next) => { 
-    let token = req.headers.authorization.split(' ')[1];
-    let decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    let userId = decodedToken.userId;
-    let commentObject = JSON.parse(req.body.comment);
-    let postId = commentObject.postId;
-    let content = commentObject.content;
-    let sql = "INSERT INTO comments VALUES(NULL, ?, ?, NULL, ?)";
+    //let token = req.headers.authorization.split(' ')[1];
+    //let decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    //let userId = decodedToken.userId;
+    //let commentObject = JSON.parse(req.body.comment);
+    let postId = req.params.id;
+    let userId = req.body.userId;
+    let content = req.body.content;
+    let sql = "INSERT INTO comments VALUES(NULL, ?, ?, NOW(), ?)";
     let sqlInserts = [userId, postId, content];
     sql = mysql.format(sql, sqlInserts);
     connectdb.query(sql, function (err, result, fields){

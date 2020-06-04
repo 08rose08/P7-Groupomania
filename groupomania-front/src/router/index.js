@@ -5,6 +5,7 @@ import Auth from '../components/Auth.vue'
 import Accueil from '../components/Accueil.vue'
 import Profil from '../components/Accueil/Profil.vue'
 import Mur from '../components/Accueil/Mur.vue'
+import Post from '../components/Accueil/FormPost.vue'
 
 
 Vue.use(VueRouter)
@@ -29,6 +30,11 @@ Vue.use(VueRouter)
     path: '/Accueil/Mur',
     name: 'Mur',
     component: Mur
+  },
+  {
+    path: '/Accueil/Mur/Post',
+    name: 'Post',
+    component: Post
   },
   {
     path: '/about',

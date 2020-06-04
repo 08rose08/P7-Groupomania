@@ -1,13 +1,18 @@
 <template>
-    <div id="auth" class="auth">
-        <img class="auth__logo" @click="afficheBoutons" alt="Groupomania logo" src="../assets/logo.png">
+    <v-app id="auth">
+        
+        <v-img class="auth__logo" @click="afficheBoutons" alt="Groupomania logo" src="../assets/icon-above-font.svg" aspect-ratio="2" cover></v-img>
+        <v-container class="auth">
+
         <div class="auth__boutons" v-if="afficheBtns">
-            <v-btn class="auth__boutons--ind" @click="afficheLogin">Login</v-btn>
-            <v-btn class="auth__boutons--ind" @click="afficheSignup">Signup</v-btn>
+            <v-btn class="auth__boutons--ind" @click="component='login'">Se connecter</v-btn>
+            <v-btn class="auth__boutons--ind" @click="component='signup'">S'inscrire</v-btn>
         </div>
-        <login v-if="loginForm"/>
-        <signup v-if="signupForm"/>
-    </div>
+        
+        <component v-bind:is="component"></component>
+        </v-container>
+        
+    </v-app>
 </template>
 
 <script>
@@ -19,22 +24,13 @@
         data(){
             return{
                 afficheBtns: false,
-                loginForm: false,
-                signupForm: false
+                component: ""
             }
         },
         methods: {
             afficheBoutons(){
                 this.afficheBtns=true
             },
-            afficheLogin(){
-                this.loginForm=true,
-                this.signupForm=false
-            },
-            afficheSignup(){
-                this.loginForm=false,
-                this.signupForm=true
-            }
         },
         components: {
             'login': Login,
@@ -50,8 +46,11 @@
         flex-direction: column;
         align-items: center;
         &__logo{
-            width: 20%;
-            margin: 10%;
+            //width: 20%;
+            
+            &:hover{
+                cursor: pointer
+            }
         }
         &__boutons{
             display: flex;

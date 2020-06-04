@@ -12,6 +12,7 @@ try{
     router.post('/login', userCtrl.login);
     router.get('/:id', userCtrl.seeMyProfile);
     //router.delete('/:id', userCtrl.deleteUser);
+    //router.put('/:id', userCtrl.updateUser);
 }catch (error){
     console.log(error);
 }

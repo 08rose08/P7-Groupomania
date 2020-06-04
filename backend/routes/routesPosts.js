@@ -10,19 +10,19 @@ try{
     router.post('/', postsCtrl.createPost);
 
     router.get('/:id/comments', postsCtrl.getComments);
-    router.get('/comments', postsCtrl.countComments);
+    //router.get('/comments', postsCtrl.countComments);
     //router.put('/:id', postsCtrl.updatePost);
-    //router.delete('/:id', auth, postsCtrl.deletePost);
+    router.delete('/:id', postsCtrl.deletePost); 
 
     //router.post('/:id/like', auth, postsCtrl.likePost);
 
-    //router.post('/:id/comments', auth, postsCtrl.createComment);
+    router.post('/:id/comments', postsCtrl.createComment);
 
     //router.put('/:id/comments/:id', auth, postsCtrl.updateComment);
-    //router.delete('/:id/comments/:id', auth, postsCtrl.deleteComment); 
+    router.delete('/comments/:id', postsCtrl.deleteComment); 
 }catch (error){
     console.log(error);
-}
+} 
 
 module.exports = router;
 

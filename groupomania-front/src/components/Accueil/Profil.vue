@@ -1,8 +1,16 @@
 <template>
     <div id="profil">
         <top-header/>
-        <h1>Profil de {{ prenom }} {{ nom }}</h1>
-        <p>Email : {{ mail }}</p>
+        <v-card class="ma-6 ml-12">
+            <v-card-title>
+                <h1>Profil de {{ prenom }} {{ nom }}</h1>
+
+            </v-card-title>
+            <v-card-text>
+                <p>Email : {{ mail }}</p>
+
+            </v-card-text>
+        </v-card>
     </div>
 </template>
 

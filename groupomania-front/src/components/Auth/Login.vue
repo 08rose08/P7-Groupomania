@@ -1,22 +1,18 @@
 <template>
-    <div>
-        <v-form ref="form" v-model="valid">
-
-            <!--<label for="email">Email :</label>
-            <input v-model="dataLogin.email" type="email" id="email">
-
-            <label for="password">Mot de passe :</label>
-            <input v-model="dataLogin.password" type="password" id="password">
-
-            <button @click.prevent="sendLogin">Envoyer</button>-->
-
-            <v-text-field v-model="dataLogin.email" :rules="emailRules" label="E-mail" prepend-icon="mdi-account-circle" required></v-text-field>
-            <v-text-field v-model="dataLogin.password" :rules="passRules" type="password" label="password" prepend-icon="mdi-lock" required></v-text-field>
-            <v-btn :disabled="!valid" class="mr-4" @click="sendLogin">Valider</v-btn>
-
-        </v-form>
-        <p v-if="msg">{{ message }}</p>
-    </div>
+    <v-app class="login mt-3">
+        <v-card shaped>
+            <v-card-text>
+                <v-form ref="form" v-model="valid">
+                    <v-text-field v-model="dataLogin.email" :rules="emailRules" label="e-mail" prepend-icon="mdi-at" required></v-text-field>
+                    <v-text-field v-model="dataLogin.password" :rules="passRules" type="password" label="mot de passe" prepend-icon="mdi-lock" required></v-text-field>
+                </v-form>
+            </v-card-text>
+            
+                <v-btn :disabled="!valid" class="success mb-3" @click="sendLogin()">Valider</v-btn>
+                <!--<p v-if="msg">{{ message }}</p>-->
+            
+        </v-card>
+    </v-app>
 </template>
 <script>
 
@@ -68,5 +64,9 @@ export default {
 }
 </script>
 <style lang="scss">
-
+    /*.login{
+        //width: 50%!important;
+        text-align: center;
+        
+    }*/
 </style>

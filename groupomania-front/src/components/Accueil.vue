@@ -1,17 +1,27 @@
 <template>
-    <div id="accueil">
+    <v-app id="accueil" class="text-center">
         
-
+        <v-img class="mx-6" src="../assets/icon-left-font-monochrome-black.svg" alt="logo de Groupomania" aspect-ratio="1.8" contain></v-img>
         <h1 >Välkommen</h1>
-        <button  @click="afficheProfil">Profil</button>
-        <button  @click="afficheMur">Mur</button>
-        <button >Se déconnecter</button>
-
+        <div class="d-flex">
+            <v-btn class="ma-3 indigo darken-4 white--text" @click="afficheProfil">
+                <v-icon>mdi-account-circle</v-icon>
+                Profil
+            </v-btn>
+            <v-btn class="ma-3 teal darken-4 white--text" @click="afficheMur">
+                <v-icon>mdi-view-dashboard-outline</v-icon>
+                Mur
+            </v-btn>
+            <v-btn class="red ma-3 ml-auto">
+                <v-icon>mdi-exit-to-app</v-icon>
+                Se déconnecter
+            </v-btn>
+        </div>
         <!--<profil v-if="affichePrfl"/>-->
         <!--<mur v-if="afficheMr"/>-->
         <router-view></router-view>
-        
-    </div>
+         
+    </v-app>
 </template>
 <script>
 //import Profil from "./Accueil/Profil.vue"
