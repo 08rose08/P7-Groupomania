@@ -12,7 +12,7 @@
 
             <label for="password">Mot de passe :</label>
             <input v-model="dataSignup.password" type="password" id="password">-->
-            <v-text-field  v-model="dataSignup.firstName" :rules="nameRules" label="Prénom" prepend-icon="mdi-account-circle" required></v-text-field>
+            <v-text-field  v-model="dataSignup.firstName" :rules="nameRules" label="Prénom" prepend-icon="mdi-account-circle" autofocus required></v-text-field>
             <v-text-field  v-model="dataSignup.lastName" :rules="nameRules" label="Nom" prepend-icon="mdi-account-circle" required></v-text-field>
             <v-text-field  v-model="dataSignup.email" :rules="emailRules" label="e-mail" prepend-icon="mdi-at" required></v-text-field>
             <v-text-field  v-model="dataSignup.password" :rules="passRules" type="password" label="mot de passe" prepend-icon="mdi-lock" required></v-text-field>

@@ -3,14 +3,14 @@
         <top-header/>
         <h1 class="ml-12">Le mur</h1>
         <v-card class="ma-3 ml-12">
-            <v-card-title class="mb-3 orange--text">
-                <h2>Nouveau post :</h2>
+            <v-card-title class="mb-3">
+                <h2>Nouveau post </h2>
             </v-card-title>
             
             <v-card-text>
                 <v-form ref="form" class="ma-3" v-model="valid" >
-                    <v-text-field v-model="dataPost.title" :rules="titleRules" label="Title" required></v-text-field>
-                    <v-text-field v-model="dataPost.content" :rules="contentRules" label="Content" required></v-text-field>
+                    <v-text-field v-model="dataPost.title" :rules="titleRules" label="Title" autofocus required></v-text-field>
+                    <v-textarea v-model="dataPost.content" :rules="contentRules" label="Content" required></v-textarea>
                 </v-form>
             </v-card-text>
 

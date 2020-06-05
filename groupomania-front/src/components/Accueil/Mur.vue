@@ -36,7 +36,8 @@
                             <v-btn fab class="ma-3" color="rgb(255,215,215)" title="liker le post">
                                 <v-icon>mdi-heart-plus-outline</v-icon>
                             </v-btn> 
-                            Like.s : {{ post.likes }} 
+                            {{ post.likes }}
+                            <v-icon>mdi-heart-outline</v-icon>
                              
                             <v-btn text @click="afficheCom(post.id)">
                                 <v-icon>mdi-comment-eye-outline</v-icon>
@@ -72,7 +73,7 @@
                             <!--comments form-->
                             <v-card v-if="afficheFrmCm">
                                 <v-form  ref="form" class="ma-3" v-model="valid" v-if="form">
-                                    <v-text-field v-model="dataCom.content" :rules="contentRules" label="Content" required></v-text-field>
+                                    <v-textarea background-color="rgba(255,215,215,0.3)" v-model="dataCom.content" :rules="contentRules" label="Commentaire" autofocus required></v-textarea>
                                 </v-form>
                                 <v-btn :disabled="!valid" class="success" @click="sendCom(post.id)">Poster</v-btn>
                                 <!--<p v-if="msg">{{ message }}</p>-->

@@ -8,8 +8,8 @@
 
             <v-card-text>
                 <p>Prénom : {{ dataGet.firstName }}</p>
-                <p>Nom : {{ dataGet.name }}</p>
-                <p>Email : {{ dataGet.mail }}</p>
+                <p>Nom : {{ dataGet.lastName }}</p>
+                <p>Email : {{ dataGet.email }}</p>
             </v-card-text>
 
             <v-card-actions class="d-flex justify-space-between">
