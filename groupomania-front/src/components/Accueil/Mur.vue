@@ -19,34 +19,35 @@
                             By {{ post.firstName }} {{ post.lastName }}, le {{ post.date }}
                         </v-card-subtitle>
 
-                        <v-card-text class="v-card-text text--primary mur__post__content">
+                        <v-card-text class="v-card-text black--text mur__post__content" >
                             {{ post.content }}
                         </v-card-text>
 
                         <v-card-actions class="mur__post__manage" v-if="post.userId === $store.state.authObj.userId">
-                            <v-btn text class="mur__post__manage--btn">
+                            <v-btn class="mur__post__manage--btn" icon>
                                 <v-icon title="modifier le post">mdi-pencil-outline</v-icon>
                             </v-btn>
-                            <v-btn text class="mur__post__manage--btn" @click="deletePost(post.id)">
+                            <v-btn class="mur__post__manage--btn" @click="deletePost(post.id)" icon>
                                 <v-icon title="supprimer le post">mdi-delete-outline</v-icon>
                             </v-btn>
                         </v-card-actions>
 
                         <v-card-text class="py-0">
-                            Like.s : {{ post.likes }}  
-                            <v-btn text class="ma-3">
+                            <v-btn fab class="ma-3" color="rgb(255,215,215)" title="liker le post">
                                 <v-icon>mdi-heart-plus-outline</v-icon>
-                                Like
                             </v-btn> 
+                            Like.s : {{ post.likes }} 
+                             
                             <v-btn text @click="afficheCom(post.id)">
                                 <v-icon>mdi-comment-eye-outline</v-icon>
                                 Commentaire.s<!--: {{ nbCom[post.id-1].nbComments }}-->
                             </v-btn>
                         </v-card-text>
                         
+                        
                         <!--comments-->
                         <div class="mur__comments" v-if="postId === post.id">
-                            <v-card class="mur__comments--ind my-1 mx-2" color="rgba(255,215,215,0.3)" v-for="(comment, index) in allComments" v-bind:key="index">
+                            <v-card class="mur__comments--ind my-1 mx-2 pa-0" color="rgba(255,215,215,0.3)" v-for="(comment, index) in allComments" v-bind:key="index" outlined>
                                 <v-card-subtitle class=" pb-0 mur__comments__name">
                                     Le {{ comment.date }}, {{ comment.firstName }} {{ comment.lastName }} commente :
                                 </v-card-subtitle>
@@ -56,10 +57,10 @@
                                 </v-card-text>
 
                                 <v-card-actions class="mur__comments__manage" v-if="comment.userId === $store.state.authObj.userId">
-                                    <v-btn text class="mur__comments__manage--btn">
+                                    <v-btn class="mur__comments__manage--btn" icon>
                                         <v-icon title="modifier le commentaire">mdi-pencil-outline</v-icon>
                                     </v-btn>
-                                    <v-btn text class="mur__comments__manage--btn" @click="deleteCom(comment.id)">
+                                    <v-btn class="mur__comments__manage--btn" @click="deleteCom(comment.id)" icon>
                                         <v-icon title="supprimer le commentaire">mdi-delete-outline</v-icon>
                                     </v-btn>
                                 </v-card-actions>
@@ -235,9 +236,7 @@ export default {
     h1{
         text-align: center;
     }
-    h1, h2{
-        color: rgb(253, 45, 1)
-    }
+    
     .mur{
         &__post{
             &__manage{
@@ -245,8 +244,8 @@ export default {
                 top: 10px!important;
                 right: 10px!important;
                 &--btn{
-                    opacity: 0.8;
-                    min-width: 12px!important;
+                    //opacity: 0.8;
+                    //min-width: 12px!important;
                     margin-left: 0!important;
                 }
             }
@@ -262,8 +261,8 @@ export default {
                 right: 0!important;
                 &--btn{
                     //padding:0;
-                    opacity: 0.7;
-                    min-width: 12px!important;
+                    //opacity: 0.7;
+                    //min-width: 12px!important;
                     margin-left: 0!important;
     
                 }

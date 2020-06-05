@@ -1,17 +1,17 @@
 <template>
     <v-app class="login mt-3">
-        <v-card shaped>
-            <v-card-text>
+        <!--<v-card shaped>
+            <v-card-text>-->
                 <v-form ref="form" v-model="valid">
-                    <v-text-field v-model="dataLogin.email" :rules="emailRules" label="e-mail" prepend-icon="mdi-at" required></v-text-field>
+                    <v-text-field v-model="dataLogin.email" :rules="emailRules" label="e-mail" prepend-icon="mdi-at" required autofocus></v-text-field>
                     <v-text-field v-model="dataLogin.password" :rules="passRules" type="password" label="mot de passe" prepend-icon="mdi-lock" required></v-text-field>
                 </v-form>
-            </v-card-text>
+            <!--</v-card-text>-->
             
                 <v-btn :disabled="!valid" class="success mb-3" @click="sendLogin()">Valider</v-btn>
                 <!--<p v-if="msg">{{ message }}</p>-->
             
-        </v-card>
+        <!--</v-card>-->
     </v-app>
 </template>
 <script>
@@ -25,10 +25,10 @@ export default {
             valid: true,
             emailRules: [
                 v => !!v || 'E-mail is required',
-                v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                v => /.+@.+\..+/.test(v) || 'E-mail invalide',
             ],
             passRules: [
-                v => !!v || 'Password is required'
+                v => !!v || 'Mot de passe requis'
             ],
             dataLogin: {
                 email: "",

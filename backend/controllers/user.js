@@ -31,7 +31,7 @@ exports.login = (req, res, next) => {
     if (email === undefined){res.status(400).json({error: 'Undefined email'})};
     let password = req.body.password;
     if (password === undefined){res.status(400).json({error: 'Undefined password'})};
-    let sql = "SELECT * FROM users WHERE email=?";
+    let sql = "SELECT * FROM users WHERE email = ?";
     let sqlInserts = [email];
     sql = mysql.format(sql, sqlInserts);
     connectdb.query(sql, function(err, result){
@@ -54,37 +54,26 @@ exports.login = (req, res, next) => {
 }
 
 exports.seeMyProfile = (req, res, next) => {
-    //let userId = dans le token ? decodeToken ?
-    // récupérer le userID puis aller chercher la ligne correspondante et la renvoyer
-    /*let token = req.headers.authorization.split(' ')[1];
-    let decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    let userId = decodedToken.userId;*/
-    //console.log(req.params.id);
-    //console.log("consoleLog du back dans seeMyProfile");
     let userId = req.params.id;
-    let sql = "SELECT firstName, lastName, email FROM users WHERE id=?"; // sans le password 
+    let sql = "SELECT firstName, lastName, email FROM users WHERE id = ?"; // sans le password 
     let sqlInserts = [userId];
     sql = mysql.format(sql,sqlInserts);
     connectdb.query(sql, function(err, result){
         if (err) throw err;
         res.status(200).json(result);
     }) 
-}
+}   
 
 exports.deleteUser = (req, res, next) => {
-    //let token = req.headers.authorization.split(' ')[1];
-    //let decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    //let userId = decodedToken.userId;
-    // conditions de delete, posts, comments (clé)
     let userId = req.params.id;
-    let sql = "DELETE FROM users WHERE id=?"; 
+    let sql = "DELETE FROM users WHERE id = ?"; 
     let sqlInserts = [userId];
     sql = mysql.format(sql,sqlInserts);
     connectdb.query(sql, function(err, result){
         if (err) throw err;
         res.status(200).json({message : 'User deleted.'});
     }) 
-}
+} 
  
 /*exports.uptadeUser= (req, res, next) => {
 

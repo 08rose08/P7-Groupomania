@@ -79,10 +79,6 @@ exports.deletePost = (req, res, next) => {
 }
  
 exports.createComment = (req, res, next) => { 
-    //let token = req.headers.authorization.split(' ')[1];
-    //let decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    //let userId = decodedToken.userId;
-    //let commentObject = JSON.parse(req.body.comment);
     let postId = req.params.id;
     let userId = req.body.userId;
     let content = req.body.content;

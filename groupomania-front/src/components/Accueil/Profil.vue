@@ -3,14 +3,60 @@
         <top-header/>
         <v-card class="ma-6 ml-12">
             <v-card-title>
-                <h1>Profil de {{ prenom }} {{ nom }}</h1>
-
+                <h1>Bonjour {{ dataGet.firstName }}</h1>
             </v-card-title>
-            <v-card-text>
-                <p>Email : {{ mail }}</p>
 
+            <v-card-text>
+                <p>Prénom : {{ dataGet.firstName }}</p>
+                <p>Nom : {{ dataGet.name }}</p>
+                <p>Email : {{ dataGet.mail }}</p>
             </v-card-text>
+
+            <v-card-actions class="d-flex justify-space-between">
+                <v-btn @click.stop="dialogUp=true" title="modifier mes informations">Modifier</v-btn>
+                <v-btn @click.stop="dialogDel=true" title="supprimer mon profil">Supprimer</v-btn>
+            </v-card-actions>
         </v-card>
+
+        <v-dialog persistent v-model="dialogUp" max-width="600px">
+            <v-card>
+                <v-card-title>Modifier mon profil</v-card-title>
+                <v-card-text>
+                    <v-form ref="form" v-model="valid">
+                        <v-text-field v-model="dataUp.firstName" :rules="nameRules" label="Prénom" prepend-icon="mdi-account-circle" required></v-text-field>
+                        <v-text-field  v-model="dataUp.lastName" :rules="nameRules" label="Nom" prepend-icon="mdi-account-circle" required></v-text-field>
+                        <v-text-field v-model="dataUp.email" :rules="emailRules" label="e-mail" prepend-icon="mdi-at" required></v-text-field>
+                        <v-text-field v-model="dataUp.password1" :rules="pass1Rules" type="password" label="mot de passe" prepend-icon="mdi-lock" ></v-text-field>
+                        <v-text-field v-model="dataUp.password2" :rules="pass2Rules" type="password" label="mot de passe" prepend-icon="mdi-lock"></v-text-field>
+                    </v-form>
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn text @click="dialogUp=false">Annuler</v-btn>
+                    <v-btn text :disabled="!valid" @click="updateUser">Valider</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="dialogDel" max-width="350px">
+            <v-card>
+                <v-card-title>
+                    Êtes-vous sûr.e ?
+                </v-card-title>
+                <v-card-text>
+                    <p>En supprimant votre profil, vous effacerez aussi tous vos posts ainsi que vos commentaires.</p>
+                    <p>{{ msg }}</p>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text @click="dialogDel=false">
+                        Annuler
+                    </v-btn>
+                    <v-btn text @click="deleteUser">
+                        Supprimer mon profil
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -21,11 +67,59 @@ import axios from "axios"
 
 export default {
     name: "Profil",
-    data(){
+    data() {
         return{
-            prenom: "",
-            nom: "",
-            mail: ""
+            dialogDel: false,
+            dialogUp: false,
+            msg: "",
+            dataGet: { 
+                firstName: "",
+                lastName: "",
+                email: ""
+            },
+            dataUp: {
+                firstName: "",
+                lastName: "",
+                email: "",
+                password1: "",
+                password2: "",
+            },
+            valid: true,
+            nameRules: [
+                v => !!v || 'Nom requis',
+            ],
+            emailRules: [
+                v => !!v || 'E-mail requis',
+                v => /.+@.+\..+/.test(v) || 'E-mail invalide',
+            ],
+            pass1Rules: [
+                v => (v || '').indexOf(' ') < 0 || 'Espace.s non autorisé.s',
+            ],
+            pass2Rules: [
+                v => (v || '').indexOf(' ') < 0 || 'Espace.s non autorisé.s',
+                v => (!!v && v) === this.dataUp.password1 || 'Les mots de passe doivent être identiques'
+            ],
+        }
+    },
+    methods: {
+        deleteUser() {
+            axios.delete("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId)
+            .then(response => {
+                console.log(response);
+                this.$store.state.authObj.userId = "";
+                this.$store.state.authObj.token = "";
+                //console.log(this.$store.state.authObj);
+                this.$router.push('/');  
+
+
+            })
+            .catch(error => {
+                console.log(error);
+                this.msg = error  
+            })
+        },
+        updateUser() {
+            console.log("c'est cliqué")
         }
     },
     mounted() { 
@@ -34,9 +128,12 @@ export default {
             .then(response => {
                 //console.log("consoleLog du front");
                 //console.log(response);
-            this.mail=response.data[0].email;
-            this.prenom=response.data[0].firstName;
-            this.nom=response.data[0].lastName;
+            this.dataGet.email = response.data[0].email;
+            this.dataGet.firstName = response.data[0].firstName;
+            this.dataGet.lastName = response.data[0].lastName;
+            this.dataUp.email = response.data[0].email;
+            this.dataUp.firstName = response.data[0].firstName;
+            this.dataUp.lastName = response.data[0].lastName;
             })
             .catch(error => {
             console.log(error); //affiche pas le message 'normalement' envoyé par le back
