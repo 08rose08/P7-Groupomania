@@ -15,12 +15,17 @@
             <v-list dense nav class="py-0 ">
                 <v-list-item two-line class="px-0 ">
                     <v-list-item-avatar>
-                        <v-icon>mdi-account-circle</v-icon>
+                        <v-img src="../../assets/logo-blanc.png" contain></v-img>
                     </v-list-item-avatar>
-
+                        
                     <v-list-item-content>
-                        <v-list-item-title>Application</v-list-item-title>
-                        <v-list-item-subtitle>Subtext</v-list-item-subtitle>
+                        <v-list-item-title>
+                            Groupomania
+      
+                        </v-list-item-title>
+                        <v-list-item-subtitle>
+                            Le réseau
+                        </v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
 
@@ -49,9 +54,10 @@ export default {
         return {
             drawer: true,
             items: [
-            { title: 'Accueil', icon: 'mdi-home-outline', link: '/Accueil'  },
-            { title: 'Mur', icon: 'mdi-view-dashboard-outline', link: '/Accueil/Mur' },
-            { title: 'Se déconnecter', icon: 'mdi-exit-to-app', link: '' },
+                { title: 'Accueil', icon: 'mdi-home-outline', link: '/Accueil'  },
+                { title: 'Profil', icon: 'mdi-account-circle', link: '/Accueil/Profil'},
+                { title: 'Mur', icon: 'mdi-view-dashboard-outline', link: '/Accueil/Mur' },
+                { title: 'Se déconnecter', icon: 'mdi-exit-to-app', link: '' },
             ],
         }
     },

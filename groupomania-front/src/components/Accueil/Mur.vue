@@ -6,10 +6,10 @@
             <h1 class="ma-4">Le mur</h1>
             <!--<form-post v-if="afficheFrmPst" />-->
             <router-view></router-view>
-            <div v-if="affichePsts">
+            <!--<div v-if="affichePsts">-->
                 <v-container >
                     <v-btn class="ma-3" @click="afficheForm">Créer un post</v-btn>
-                    <!--post-->
+                    <!--posts-->
                     <v-card class="mur__post ma-3 mt-6" v-for="(post, index) in allPosts" v-bind:key="index">
                         <v-card-title>
                             <h2 class="mur__post__title">{{ post.title }}</h2>
@@ -39,7 +39,7 @@
                             {{ post.likes }}
                             <v-icon>mdi-heart-outline</v-icon>
                              
-                            <v-btn text @click="afficheCom(post.id)">
+                            <v-btn text @click="afficheCom(post.id)" title="voir les commentaires">
                                 <v-icon>mdi-comment-eye-outline</v-icon>
                                 Commentaire.s<!--: {{ nbCom[post.id-1].nbComments }}-->
                             </v-btn>
@@ -58,7 +58,7 @@
                                 </v-card-text>
 
                                 <v-card-actions class="mur__comments__manage" v-if="comment.userId === $store.state.authObj.userId">
-                                    <v-btn class="mur__comments__manage--btn" icon>
+                                    <v-btn class="mur__comments__manage--btn" @click.stop="goDialogUpCom(comment.comContent)" icon>
                                         <v-icon title="modifier le commentaire">mdi-pencil-outline</v-icon>
                                     </v-btn>
                                     <v-btn class="mur__comments__manage--btn" @click="deleteCom(comment.id)" icon>
@@ -66,22 +66,39 @@
                                     </v-btn>
                                 </v-card-actions>
 
+                                <!--update comment - form-->
+                                <v-dialog v-model="dialogUpCom" max-width="500px">
+                                    <v-card>
+                                        <v-card-title>Modifier mon commentaire</v-card-title>
+                                        <v-card-text>
+                                            <v-form ref="form" v-model="valid">
+                                                <v-textarea v-model="dataCom.content" :rules="contentRules" label="Commentaire"></v-textarea>
+                                            </v-form>
+                                        </v-card-text>
+                                        <v-card-actions>
+                                            <v-btn text @click="dialogUpCom=false">Annuler</v-btn>
+                                            <v-btn text :disabled="!valid" @click="updateCom(comment.id)">Valider</v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
+
                             </v-card>
 
-                            <v-btn v-if="!afficheFrmCm" class="ma-2" @click="afficheFormCom()">Commenter</v-btn>
+                            <v-btn v-if="!afficheFrmCm" title="commenter le post" class="ma-2" @click="afficheFormCom()">Commenter</v-btn>
                             
-                            <!--comments form-->
+                            <!--new comment - form-->
                             <v-card v-if="afficheFrmCm">
                                 <v-form  ref="form" class="ma-3" v-model="valid" v-if="form">
                                     <v-textarea background-color="rgba(255,215,215,0.3)" v-model="dataCom.content" :rules="contentRules" label="Commentaire" autofocus required></v-textarea>
                                 </v-form>
-                                <v-btn :disabled="!valid" class="success" @click="sendCom(post.id)">Poster</v-btn>
+                                <v-btn :disabled="!valid" class="success ma-2" @click="sendCom(post.id)">Poster</v-btn>
                                 <!--<p v-if="msg">{{ message }}</p>-->
                             </v-card>
+
                         </div>
                     </v-card>
                 </v-container>
-            </div>
+            <!--</div>-->
         </div>
     </v-app>
 </template>
@@ -96,13 +113,14 @@ export default {
     name: "Mur",
     data(){
         return{
-            affichePsts: true,
-            afficheFrmPst: false,
+            //affichePsts: true,
+            //afficheFrmPst: false,
             afficheFrmCm: false,
             allPosts: [],
             allComments: [],
             postId: "",
             //nbCom: [],
+            dialogUpCom: false,
 
             valid: true,
             contentRules: [
@@ -184,6 +202,28 @@ export default {
                     
                 })
         },
+        goDialogUpCom(comContent){
+            //console.log(comContent);
+            this.dataCom.content=comContent;
+            //console.log(this.dataCom.content);
+            this.dialogUpCom=true;
+            
+        },
+        updateCom(cId){
+            this.dataCom.userId=this.$store.state.authObj.userId;
+            axios.put("http://localhost:3000/api/posts/comments/" + cId, this.dataCom)
+                .then(response => {
+                    console.log(response);
+                    this.dataCom.content="";
+                    this.dataCom.userId="";
+                    this.afficheFrmCm=false;
+                    this.dialogUpCom=false;
+                })
+                .catch(error => {
+                    console.log(error);
+                    
+                })
+        },
         /*countComments(pId){
             let nbCom = this.nbCom;
             console.log("dans countComments");
@@ -201,8 +241,8 @@ export default {
             })  
         },*/
         afficheForm(){
-            this.affichePsts=false;
-            this.afficheFrmPst=true;
+            //this.affichePsts=false;
+            //this.afficheFrmPst=true;
             this.$router.push('/Accueil/Mur/Post')
         },
         afficheFormCom(){

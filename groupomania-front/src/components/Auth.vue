@@ -1,15 +1,14 @@
 <template>
     <v-app id="auth">
         
-        <v-img class="auth__logo" @click="afficheBoutons" alt="Groupomania logo" src="../assets/icon-above-font.svg" aspect-ratio="2" cover></v-img>
         <v-container class="auth">
 
-        <div class="auth__boutons" v-if="afficheBtns">
-            <v-btn class="auth__boutons--ind" @click="component='login'">Se connecter</v-btn>
-            <v-btn class="auth__boutons--ind" @click="component='signup'">S'inscrire</v-btn>
-        </div>
-        
-        <component v-bind:is="component"></component>
+            <div class="auth__boutons"> <!--v-if="afficheBtns"-->
+                <v-btn class="auth__boutons--ind" @click="component='login'">Se connecter</v-btn>
+                <v-btn class="auth__boutons--ind" @click="component='signup'">S'inscrire</v-btn>
+            </div>
+            
+            <component v-bind:is="component"></component>
         </v-container>
         
     </v-app>
@@ -40,22 +39,25 @@
 </script>
 
 <style lang="scss">
+    #auth {
+        background: no-repeat center/80% url("../assets/icon-above-font.svg") ;
+
+    }
     .auth {
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        &__logo{
-            //width: 20%;
-            
-            &:hover{
-                cursor: pointer
-            }
-        }
+        //text-align: center;
+        //display: flex;
+        //flex-direction: column;
+        //align-items: center;
         &__boutons{
             display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin-top: 25%;
             &--ind{
-                margin: 5%;
+                margin-top: 5%;
+                //width: 20%;
+                width: 150px ;
+                
             }
         }
     }

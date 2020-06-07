@@ -8,6 +8,7 @@ export default new Vuex.Store({
     authObj: {
       userId: "",
       token: "",
+      
     }
   },
   mutations: {

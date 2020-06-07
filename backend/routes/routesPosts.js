@@ -11,14 +11,14 @@ try{
 
     router.get('/:id/comments', postsCtrl.getComments);
     //router.get('/comments', postsCtrl.countComments);
-    //router.put('/:id', postsCtrl.updatePost);
+    router.put('/:id', postsCtrl.updatePost);
     router.delete('/:id', postsCtrl.deletePost); 
 
     //router.post('/:id/like', auth, postsCtrl.likePost);
 
     router.post('/:id/comments', postsCtrl.createComment);
 
-    //router.put('/:id/comments/:id', auth, postsCtrl.updateComment);
+    router.put('/comments/:id', postsCtrl.updateComment);
     router.delete('/comments/:id', postsCtrl.deleteComment); 
 }catch (error){
     console.log(error);

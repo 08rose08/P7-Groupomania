@@ -101,3 +101,16 @@ exports.deleteComment = (req, res, next) => {
         res.status(200).json({message : 'Comment deleted !'});
     })
 }
+
+exports.updateComment = (req, res, next) => {
+    
+    let content = req.body.content;
+    let commentId = req.params.id;
+    let sql = "UPDATE comments SET comContent = ? WHERE id = ?";
+    let sqlInserts = [content, commentId];
+    sql = mysql.format(sql, sqlInserts);
+    connectdb.query(sql, function (err, result, fields){
+        if (err) throw err;
+        res.status(200).json({message : 'Comment updated !'});
+    })
+}

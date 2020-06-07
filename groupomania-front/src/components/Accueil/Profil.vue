@@ -1,12 +1,12 @@
 <template>
-    <div id="profil">
+    <div id="profil" class="d-flex justify-center">
         <top-header/>
-        <v-card class="ma-6 ml-12">
-            <v-card-title>
-                <h1>Bonjour {{ dataGet.firstName }}</h1>
+        <v-card class="ma-12" min-width="400px" flat>
+            <v-card-title class="my-3" >
+                <h1>Mon profil</h1>
             </v-card-title>
 
-            <v-card-text>
+            <v-card-text class="ml-2">
                 <p>Prénom : {{ dataGet.firstName }}</p>
                 <p>Nom : {{ dataGet.lastName }}</p>
                 <p>Email : {{ dataGet.email }}</p>

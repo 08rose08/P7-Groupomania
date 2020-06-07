@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <v-form ref="form" v-model="valid">
+    <div class="signup">
+        <v-form class="signup__form" ref="form" v-model="valid">
             <!--<label for="prenom">Prénom :</label>
             <input v-model="dataSignup.firstName" type="text" id="prenom">
 
@@ -71,5 +71,17 @@ export default {
 }
 </script>
 <style lang="scss">
-
+    .signup{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: auto;
+        margin-top: 7%;
+        width: 350px;
+        background-color: rgba(255,255,255,0.7);
+        border-radius: 10px;
+        &__form{
+            width: 100%;
+        }
+    }
 </style>
