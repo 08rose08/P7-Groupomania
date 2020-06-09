@@ -26,8 +26,8 @@
                         <v-text-field v-model="dataUp.firstName" :rules="nameRules" label="Prénom" prepend-icon="mdi-account-circle" required></v-text-field>
                         <v-text-field  v-model="dataUp.lastName" :rules="nameRules" label="Nom" prepend-icon="mdi-account-circle" required></v-text-field>
                         <v-text-field v-model="dataUp.email" :rules="emailRules" label="e-mail" prepend-icon="mdi-at" required></v-text-field>
-                        <v-text-field v-model="dataUp.password1" :rules="pass1Rules" type="password" label="mot de passe" prepend-icon="mdi-lock" ></v-text-field>
-                        <v-text-field v-model="dataUp.password2" :rules="pass2Rules" type="password" label="mot de passe" prepend-icon="mdi-lock"></v-text-field>
+                        <!--<v-text-field v-model="dataUp.password1" :rules="pass1Rules" type="password" label="mot de passe" prepend-icon="mdi-lock" ></v-text-field>
+                        <v-text-field v-model="dataUp.password2" :rules="pass2Rules" type="password" label="mot de passe" prepend-icon="mdi-lock"></v-text-field>-->
                     </v-form>
                 </v-card-text>
                 <v-card-actions>
@@ -81,8 +81,8 @@ export default {
                 firstName: "",
                 lastName: "",
                 email: "",
-                password1: "",
-                password2: "",
+                //password1: "",
+                //password2: "",
             },
             valid: true,
             nameRules: [
@@ -92,26 +92,24 @@ export default {
                 v => !!v || 'E-mail requis',
                 v => /.+@.+\..+/.test(v) || 'E-mail invalide',
             ],
-            pass1Rules: [
+            /*pass1Rules: [
                 v => (v || '').indexOf(' ') < 0 || 'Espace.s non autorisé.s',
             ],
             pass2Rules: [
                 v => (v || '').indexOf(' ') < 0 || 'Espace.s non autorisé.s',
                 v => (!!v && v) === this.dataUp.password1 || 'Les mots de passe doivent être identiques'
-            ],
+            ],*/
         }
     },
     methods: {
         deleteUser() {
             axios.delete("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId)
             .then(response => {
-                console.log(response);
+                console.log(response.data);
                 this.$store.state.authObj.userId = "";
                 this.$store.state.authObj.token = "";
                 //console.log(this.$store.state.authObj);
                 this.$router.push('/');  
-
-
             })
             .catch(error => {
                 console.log(error);
@@ -119,7 +117,20 @@ export default {
             })
         },
         updateUser() {
-            console.log("c'est cliqué")
+            console.log("c'est cliqué");
+            axios.put("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId, this.dataUp)
+            .then(response => {
+                console.log(response.data);
+                //this.$store.state.authObj.userId = "";
+                //this.$store.state.authObj.token = "";
+                //console.log(this.$store.state.authObj);
+                //this.$router.push('/');
+                this.dialogUp = false 
+            })
+            .catch(error => {
+                console.log(error);
+                this.msg = error  
+            })
         }
     },
     mounted() { 
@@ -127,16 +138,17 @@ export default {
         axios.get("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId)
             .then(response => {
                 //console.log("consoleLog du front");
-                //console.log(response);
-            this.dataGet.email = response.data[0].email;
-            this.dataGet.firstName = response.data[0].firstName;
-            this.dataGet.lastName = response.data[0].lastName;
-            this.dataUp.email = response.data[0].email;
-            this.dataUp.firstName = response.data[0].firstName;
-            this.dataUp.lastName = response.data[0].lastName;
+                console.log(response.data);
+                this.dataGet.email = response.data[0].email;
+                this.dataGet.firstName = response.data[0].firstName;
+                this.dataGet.lastName = response.data[0].lastName;
+                this.dataUp.email = response.data[0].email;
+                this.dataUp.firstName = response.data[0].firstName;
+                this.dataUp.lastName = response.data[0].lastName;
             })
             .catch(error => {
-            console.log(error); //affiche pas le message 'normalement' envoyé par le back
+                console.log(error);
+                //affiche pas le message 'normalement' envoyé par le back
             });    
     },
     

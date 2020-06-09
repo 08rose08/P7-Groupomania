@@ -1,5 +1,5 @@
 <template>
-    <div class="signup">
+    <div class="signup" v-if="form">
         <v-form class="signup__form" ref="form" v-model="valid">
             <!--<label for="prenom">Prénom :</label>
             <input v-model="dataSignup.firstName" type="text" id="prenom">
@@ -48,22 +48,25 @@ export default {
                 email: "",
                 password: "",
             }, 
-            //form: true,
+            form: true,
             msg: false,
             message: ""
         }
     },
     methods: {
         sendSignup(){
-            axios
-            .post('http://localhost:3000/api/auth/signup', this.dataSignup)
+            axios.post('http://localhost:3000/api/auth/signup', this.dataSignup)
             .then(response => {
                 //console.log(response);
-                this.message=response.data.message;
-                this.form=false;
-                this.msg=true
+                this.message = response.data.message;
+                this.form = false;
+                this.msg = true;
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error);
+                this.message = error;
+                this.msg = true; 
+                });
             
 
         }

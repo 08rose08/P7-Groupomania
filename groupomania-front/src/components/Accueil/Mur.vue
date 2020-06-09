@@ -24,7 +24,7 @@
                         </v-card-text>
 
                         <v-card-actions class="mur__post__manage" v-if="post.userId === $store.state.authObj.userId">
-                            <v-btn class="mur__post__manage--btn" title="modifier le post" @click.stop="goDialogUpPost(post.title, post.content)" icon>
+                            <v-btn class="mur__post__manage--btn" title="modifier le post" @click.stop="goDialogUpPost(post.title, post.content, post.id)" icon>
                                 <v-icon>mdi-pencil-outline</v-icon>
                             </v-btn>
                             <v-btn class="mur__post__manage--btn" title="supprimer le post" @click="deletePost(post.id)" icon>
@@ -46,6 +46,7 @@
                         </v-card-text>
 
                         <!--update post - form-->
+                
                         <v-dialog v-model="dialogUpPost" max-width="500px">
                             <v-card>
                                 <v-card-title>Modifier mon post</v-card-title>
@@ -57,7 +58,7 @@
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-btn text @click="dialogUpPost=false">Annuler</v-btn>
-                                    <v-btn text :disabled="!valid" @click="updatePost(post.id)">Valider</v-btn>
+                                    <v-btn text :disabled="!valid" @click="updatePost()">Valider</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -76,7 +77,7 @@
                                 </v-card-text>
 
                                 <v-card-actions class="mur__comments__manage" v-if="comment.userId === $store.state.authObj.userId">
-                                    <v-btn title="modifier le commentaire" class="mur__comments__manage--btn" @click.stop="goDialogUpCom(comment.comContent)" icon>
+                                    <v-btn title="modifier le commentaire" class="mur__comments__manage--btn" @click.stop="goDialogUpCom(comment.comContent, comment.id)" icon>
                                         <v-icon >mdi-pencil-outline</v-icon>
                                     </v-btn>
                                     <v-btn title="supprimer le commentaire" class="mur__comments__manage--btn" @click="deleteCom(comment.id)" icon>
@@ -95,7 +96,7 @@
                                         </v-card-text>
                                         <v-card-actions>
                                             <v-btn text @click="dialogUpCom=false">Annuler</v-btn>
-                                            <v-btn text :disabled="!valid" @click="updateCom(comment.id)">Valider</v-btn>
+                                            <v-btn text :disabled="!valid" @click="updateCom()">Valider</v-btn>
                                         </v-card-actions>
                                     </v-card>
                                 </v-dialog>
@@ -149,11 +150,13 @@ export default {
                 v => !!v || 'Content is required',
             ],
             dataPost: {
+                id: "",
                 title:"",
                 content:"",
                 userId:"",
             },
             dataCom:{
+                id: "",
                 content:"",
                 userId: ""
             },
@@ -165,16 +168,7 @@ export default {
         }
     },
     methods: {
-        getAllPosts(){
-            axios.get("http://localhost:3000/api/posts")
-                .then(response => {
-                    //console.log(response);
-                    this.allPosts=response.data;
-                })
-                .catch(error => {
-                console.log(error); //affiche pas le message 'normalement' envoyé par le back
-                });
-        },
+       
         afficheCom(pId){
             this.postId=pId;
             this.afficheFrmCm=false;
@@ -229,18 +223,21 @@ export default {
                     
                 })
         },
-        goDialogUpPost(postTitle, postContent){
+        goDialogUpPost(postTitle, postContent, postId){
             this.dataPost.title = postTitle;
             this.dataPost.content = postContent;
+            this.dataPost.id = postId;
             this.dialogUpPost = true;
         },
-        updatePost(pId){
+        updatePost(){
             this.dataPost.userId = this.$store.state.authObj.userId;
-            axios.put("http://localhost:3000/api/posts/comments/" + pId, this.dataPost)
+            axios.put("http://localhost:3000/api/posts/" + this.dataPost.id, this.dataPost)
                 .then(response => {
                     console.log(response);
+                    this.dataPost.title = "";
                     this.dataPost.content = "";
                     this.dataPost.userId = "";
+                    this.dataPost.id = "";
                     //this.afficheFrmCm = false;
                     this.dialogUpPost = false;
                 })
@@ -248,15 +245,16 @@ export default {
                     console.log(error);
                 })
         },
-        goDialogUpCom(comContent){
+        goDialogUpCom(comContent, comId){
             //console.log(comContent);
+            this.dataCom.id = comId;
             this.dataCom.content = comContent;
             //console.log(this.dataCom.content);
             this.dialogUpCom = true; 
         },
-        updateCom(cId){
+        updateCom(){
             this.dataCom.userId = this.$store.state.authObj.userId;
-            axios.put("http://localhost:3000/api/posts/comments/" + cId, this.dataCom)
+            axios.put("http://localhost:3000/api/posts/comments/" + this.dataCom.id, this.dataCom)
                 .then(response => {
                     console.log(response);
                     this.dataCom.content = "";
@@ -301,7 +299,7 @@ export default {
     created(){
         axios.get("http://localhost:3000/api/posts")
                 .then(response => {
-                    //console.log(response);
+                    //console.log(response.data);
                     this.allPosts = response.data;
                 })
                 .catch(error => {

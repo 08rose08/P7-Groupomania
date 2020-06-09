@@ -45,7 +45,7 @@ export default {
         sendLogin(){
             axios.post("http://localhost:3000/api/auth/login", this.dataLogin)
                 .then(response => {
-                    //console.log(response);
+                    console.log(response);
                     //console.log(response.data.userId);
                     //console.log(response.data.token);
                     

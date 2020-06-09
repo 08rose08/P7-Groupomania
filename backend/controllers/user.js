@@ -3,6 +3,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const connectdb = require('../connectdb.js');
 const mysql = require('mysql');
+const UserManager = require ('../managers/UserManager.js')
+
+let userManager = new UserManager();
+
 
 exports.signup = (req, res, next) => {
     let email = req.body.email;
@@ -11,30 +15,34 @@ exports.signup = (req, res, next) => {
     let lastName = req.body.lastName;
     bcrypt.hash(password, 10)
         .then (hash => {
-            let sql = "INSERT INTO users VALUES(NULL, ?, ?, ?, ?)";
             let sqlInserts = [lastName, firstName, email, hash];
-            sql = mysql.format(sql, sqlInserts);
-            //pourquoi passer par mysql.format ? plutot que mettre inserts direct dans connectdb.query ? cf https://www.w3schools.com/nodejs/nodejs_mysql_insert.asp
-            connectdb.query(sql, function(err, result){
-                if (err) throw err;
-                //console.log('New user !');
-                //est-ce que mon res va pas se faire à la suite de l'erreur ?
-                //est-ce que ce format de res est possible ? différent de console.log ? sortir res.statut de connectdb.query ?
-                res.status(201).json({message : 'New user !'})
-            })
+            userManager.signup(sqlInserts)
+                .then((response) =>{
+                    res.status(201).json(response)
+                })
+                .catch((error) =>{
+                    console.error(error);
+                    res.status(400).json({error})
+                })
         })
-        .catch(error => res.status(500).json({error})) 
+        .catch(error => res.status(500).json(error)) 
 };
 
 exports.login = (req, res, next) => {
     let email = req.body.email;
-    if (email === undefined){res.status(400).json({error: 'Undefined email'})};
+    //if (email === undefined){res.status(400).json({error: 'Undefined email'})};
     let password = req.body.password;
-    if (password === undefined){res.status(400).json({error: 'Undefined password'})};
-    let sql = "SELECT * FROM users WHERE email = ?";
+    //if (password === undefined){res.status(400).json({error: 'Undefined password'})};
     let sqlInserts = [email];
-    sql = mysql.format(sql, sqlInserts);
-    connectdb.query(sql, function(err, result){
+    userManager.login(sqlInserts, password)
+        .then((response) =>{
+            //console.log(response);
+            res.status(200).json(response)
+        })
+        .catch((error) =>{
+            res.status(400).json(error)
+        })
+    /*connectdb.query(sql, function(err, result){
         if (err) throw err;
         // envoyer message utilisateur inexistant ?;
         bcrypt.compare(password, result[0].password) // result.password ?? result[0].password ?
@@ -50,29 +58,47 @@ exports.login = (req, res, next) => {
                 });
             })
             .catch(error => res.status(500).json({ error }));
-    })
+    })*/
 }
-
 exports.seeMyProfile = (req, res, next) => {
     let userId = req.params.id;
-    let sql = "SELECT firstName, lastName, email FROM users WHERE id = ?"; // sans le password 
     let sqlInserts = [userId];
-    sql = mysql.format(sql,sqlInserts);
-    connectdb.query(sql, function(err, result){
-        if (err) throw err;
-        res.status(200).json(result);
-    }) 
+    //console.log('avant le manager');
+    userManager.seeMyProfile(sqlInserts)
+        .then((response) =>{
+            res.status(200).json(response)
+        })
+        .catch((error) =>{
+            console.log(error);
+            res.status(400).json(error)
+        })
 }   
-
+exports.updateUser = (req, res, next) => {
+    let userId = req.params.id;
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
+    let email = req.body.email;
+    let sqlInserts = [firstName, lastName, email, userId];
+    userManager.updateUser(sqlInserts)
+        .then((response) =>{
+            res.status(200).json(response)
+        })
+        .catch((error) =>{
+            res.status(400).json(error)
+        })
+}
+ 
 exports.deleteUser = (req, res, next) => {
     let userId = req.params.id;
-    let sql = "DELETE FROM users WHERE id = ?"; 
     let sqlInserts = [userId];
-    sql = mysql.format(sql,sqlInserts);
-    connectdb.query(sql, function(err, result){
-        if (err) throw err;
-        res.status(200).json({message : 'User deleted.'});
-    }) 
+    userManager.deleteUser(sqlInserts)
+        .then((response) =>{
+            res.status(200).json(response)
+        })
+        .catch((error) =>{
+            console.log(error);
+            res.status(400).json(error)
+        })
 } 
  
 /*exports.uptadeUser= (req, res, next) => {
