@@ -33,7 +33,7 @@
                         </v-card-actions>
 
                         <v-card-text class="py-0">
-                            <v-btn fab class="ma-3" color="rgb(255,215,215)" title="liker le post">
+                            <v-btn fab class="ma-3" color="rgb(255,215,215)" title="liker le post" @click="likePost(post.id, post.likes)">
                                 <v-icon>mdi-heart-plus-outline</v-icon>
                             </v-btn> 
                             {{ post.likes }}
@@ -136,6 +136,7 @@ export default {
             //afficheFrmPst: false,
             afficheFrmCm: false,
             allPosts: [],
+            allLikes: [],
             allComments: [],
             postId: "",
             //nbCom: [],
@@ -159,6 +160,12 @@ export default {
                 id: "",
                 content:"",
                 userId: ""
+            },
+            dataLike:{
+                userId: "",
+                nbLikes: "",
+                postId: "",
+                liked: false,
             },
             //msg: false,
             //message: "",
@@ -267,6 +274,7 @@ export default {
                     
                 })
         },
+        
         /*countComments(pId){
             let nbCom = this.nbCom;
             console.log("dans countComments");
@@ -290,7 +298,44 @@ export default {
         },
         afficheFormCom(){
             this.afficheFrmCm = true
-        }
+        },
+
+        likePost(postId, nbLikes){
+            console.log(this.dataLike.liked);
+            this.allLikes.forEach(element => {
+                if(element.postId === postId && element.userId === this.$store.state.authObj.userId){
+                    console.log('dans le if');
+                    this.dataLike.nbLikes = nbLikes+-1;
+                    this.dataLike.liked = true;
+                    
+                }//else{
+                    //console.log('dans le else');
+                    //this.dataLike.nbLikes = nbLikes+1;
+                    //this.dataLike.liked = false;
+                //}
+            });
+            if(this.dataLike.liked === false){
+                console.log('dans le 2eme if');
+                this.dataLike.nbLikes = nbLikes+1;
+            }
+            
+            
+            this.dataLike.userId = this.$store.state.authObj.userId;
+            this.dataLike.postId = postId;
+            console.log(this.dataLike);
+            console.log(this.dataLike.liked);
+            axios.post("http://localhost:3000/api/posts/" + postId + "/like", this.dataLike)
+                .then(response => {
+                    console.log(response);
+                    this.dataLike.liked = false;
+
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.dataLike.liked = false;
+                })
+        },
+
     },
     components: {
         "top-header": TopHeader, 
@@ -298,13 +343,21 @@ export default {
     },
     created(){
         axios.get("http://localhost:3000/api/posts")
-                .then(response => {
-                    //console.log(response.data);
-                    this.allPosts = response.data;
-                })
-                .catch(error => {
-                console.log(error); //affiche pas le message 'normalement' envoyé par le back
-                });
+            .then(response => {
+                //console.log(response.data);
+                this.allPosts = response.data;
+            })
+            .catch(error => {
+            console.log(error); //affiche pas le message 'normalement' envoyé par le back
+            });
+        axios.get("http://localhost:3000/api/posts/likes")
+            .then(response =>{
+                this.allLikes = response.data;
+                console.log(this.allLikes)
+            })
+            .catch(error => {
+                console.log(error)
+            })
         /*axios.get("http://localhost:3000/api/posts/comments")
                 .then(response => {
                     this.nbCom=response.data;

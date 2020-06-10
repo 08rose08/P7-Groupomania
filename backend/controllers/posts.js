@@ -93,6 +93,28 @@ exports.deleteComment = (req, res, next) => {
 }
 
 
+// LIKES
+
+exports.getAllLikes = (req, res, next) =>{
+     postsManager.getAllLikes()
+        .then((response) =>{
+            console.log(response)
+            res.status(200).json(response);
+        })
+}
+exports.postLike = (req, res, next) => {
+    //console.log(req.body);
+    let userId = req.body.userId;
+    let nbLikes = req.body.nbLikes;
+    let postId = req.body.postId;
+    let sqlInserts1 = [postId, userId];
+    let sqlInserts2 = [nbLikes,postId];
+    postsManager.postLike(sqlInserts1, sqlInserts2, req.body.liked)
+        .then((response) =>{
+            res.status(201).json(response)
+        }) 
+}
+
 
 /*exports.countComments = (req, res, next) => {
     let sql = "SELECT posts.id, COUNT(comments.id) AS nbComments FROM comments RIGHT JOIN posts ON comments.postId = posts.id GROUP BY posts.id";

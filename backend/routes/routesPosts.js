@@ -13,8 +13,9 @@ try{
     router.delete('/:id', postsCtrl.deletePost); 
 
     
-    //router.post('/:id/like', auth, postsCtrl.likePost);
-    
+    router.get('/likes', postsCtrl.getAllLikes);
+    router.post('/:id/like', postsCtrl.postLike);
+
     //router.get('/comments', postsCtrl.countComments);
     router.get('/:id/comments', postsCtrl.getComments);
     router.post('/:id/comments', postsCtrl.createComment);

@@ -66,9 +66,9 @@ class UserManager {
         sql = mysql.format(sql,sqlInserts);
         return new Promise((resolve, reject) =>{
             connectdb.query(sql, function(err, result){
-                console.log('avant le if err');
+                //console.log('avant le if err');
                 if (err) return reject({error : 'fonction indisponible'});
-                console.log('après le if err');
+                //console.log('après le if err');
                 resolve({message : 'User updated.'});
             }) 
 
