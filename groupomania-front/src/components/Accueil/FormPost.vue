@@ -52,7 +52,7 @@ export default {
     },
     methods: {
         sendPost(){
-            axios.post("http://localhost:3000/api/posts/", this.dataPost)
+            axios.post("http://localhost:3000/api/posts/", this.dataPost, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
                 .then(response => {
                     console.log(response);
                     this.message=response.data.message;

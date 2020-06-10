@@ -103,7 +103,7 @@ export default {
     },
     methods: {
         deleteUser() {
-            axios.delete("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId)
+            axios.delete("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
             .then(response => {
                 console.log(response.data);
                 this.$store.state.authObj.userId = "";
@@ -118,7 +118,7 @@ export default {
         },
         updateUser() {
             console.log("c'est cliqué");
-            axios.put("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId, this.dataUp)
+            axios.put("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId, this.dataUp, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
             .then(response => {
                 console.log(response.data);
                 //this.$store.state.authObj.userId = "";
@@ -135,7 +135,7 @@ export default {
     },
     mounted() { 
         //console.log("mounted");
-        axios.get("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId)
+        axios.get("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
             .then(response => {
                 //console.log("consoleLog du front");
                 console.log(response.data);
