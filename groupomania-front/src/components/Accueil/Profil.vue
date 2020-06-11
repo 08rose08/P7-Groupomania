@@ -84,6 +84,7 @@ export default {
                 //password1: "",
                 //password2: "",
             },
+            dataUpS: "",
             valid: true,
             nameRules: [
                 v => !!v || 'Nom requis',
@@ -118,7 +119,8 @@ export default {
         },
         updateUser() {
             console.log("c'est cliqué");
-            axios.put("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId, this.dataUp, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            this.dataUpS = JSON.stringify(this.dataUp);
+            axios.put("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId, this.dataUpS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.$store.state.authObj.token}})
             .then(response => {
                 console.log(response.data);
                 //this.$store.state.authObj.userId = "";

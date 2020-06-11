@@ -156,17 +156,20 @@ export default {
                 content:"",
                 userId:"",
             },
+            dataPostS: "",
             dataCom:{
                 id: "",
                 content:"",
                 userId: ""
             },
+            dataComS: "",
             dataLike:{
                 userId: "",
                 nbLikes: "",
                 postId: "",
                 liked: false,
             },
+            dataLikeS: "",
             //msg: false,
             //message: "",
             form: true
@@ -177,21 +180,22 @@ export default {
     methods: {
        
         afficheCom(pId){
-            this.postId=pId;
-            this.afficheFrmCm=false;
+            this.postId = pId;
+            this.afficheFrmCm = false;
             //console.log(pId)
             axios.get("http://localhost:3000/api/posts/" + pId + "/comments", {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
                 .then(response => {
                     //console.log(response);
-                    this.allComments=response.data;
+                    this.allComments = response.data;
                 })
                 .catch(error => {
                 console.log(error);
                 });
         },
         sendCom(pId){
-            this.dataCom.userId=this.$store.state.authObj.userId;
-            axios.post("http://localhost:3000/api/posts/" + pId + "/comments", this.dataCom, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            this.dataCom.userId = this.$store.state.authObj.userId;
+            this.dataComS = JSON.stringify(this.dataCom);
+            axios.post("http://localhost:3000/api/posts/" + pId + "/comments", this.dataComS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.$store.state.authObj.token}})
                 .then(response => {
                     console.log(response);
                     //this.message=response.data.message;
@@ -210,24 +214,18 @@ export default {
             axios.delete("http://localhost:3000/api/posts/" + pId, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
                 .then(response => {
                     console.log(response);
-                    
-                    
                 })
                 .catch(error => {
-                    console.log(error);
-                    
+                    console.log(error);    
                 })
         },
         deleteCom(cId){
             axios.delete("http://localhost:3000/api/posts/comments/" + cId, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
                 .then(response => {
                     console.log(response);
-                    
-                    
                 })
                 .catch(error => {
                     console.log(error);
-                    
                 })
         },
         goDialogUpPost(postTitle, postContent, postId){
@@ -238,7 +236,8 @@ export default {
         },
         updatePost(){
             this.dataPost.userId = this.$store.state.authObj.userId;
-            axios.put("http://localhost:3000/api/posts/" + this.dataPost.id, this.dataPost, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            this.dataPostS = JSON.stringify(this.dataPost);
+            axios.put("http://localhost:3000/api/posts/" + this.dataPost.id, this.dataPostS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.$store.state.authObj.token}})
                 .then(response => {
                     console.log(response);
                     this.dataPost.title = "";
@@ -261,7 +260,8 @@ export default {
         },
         updateCom(){
             this.dataCom.userId = this.$store.state.authObj.userId;
-            axios.put("http://localhost:3000/api/posts/comments/" + this.dataCom.id, this.dataCom, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            this.dataComS = JSON.stringify(this.dataComS);
+            axios.put("http://localhost:3000/api/posts/comments/" + this.dataCom.id, this.dataComS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.$store.state.authObj.token}})
                 .then(response => {
                     console.log(response);
                     this.dataCom.content = "";
@@ -301,10 +301,10 @@ export default {
         },
 
         likePost(postId, nbLikes){
-            console.log(this.dataLike.liked);
+            //console.log(this.dataLike.liked);
             this.allLikes.forEach(element => {
                 if(element.postId === postId && element.userId === this.$store.state.authObj.userId){
-                    console.log('dans le if');
+                    //console.log('dans le if');
                     this.dataLike.nbLikes = nbLikes+-1;
                     this.dataLike.liked = true;
                     
@@ -315,16 +315,17 @@ export default {
                 //}
             });
             if(this.dataLike.liked === false){
-                console.log('dans le 2eme if');
+                //console.log('dans le 2eme if');
                 this.dataLike.nbLikes = nbLikes+1;
             }
             
             
             this.dataLike.userId = this.$store.state.authObj.userId;
             this.dataLike.postId = postId;
-            console.log(this.dataLike);
+            //console.log(this.dataLike);
             console.log(this.dataLike.liked);
-            axios.post("http://localhost:3000/api/posts/" + postId + "/like", this.dataLike, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            //this.dataLikeS = JSON.stringify(this.dataLike);
+            axios.post("http://localhost:3000/api/posts/" + postId + "/like", this.dataLikeS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.$store.state.authObj.token}})
                 .then(response => {
                     console.log(response);
                     this.dataLike.liked = false;
@@ -353,7 +354,7 @@ export default {
         axios.get("http://localhost:3000/api/posts/likes", {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
             .then(response =>{
                 this.allLikes = response.data;
-                console.log(this.allLikes)
+                //console.log(this.allLikes)
             })
             .catch(error => {
                 console.log(error)

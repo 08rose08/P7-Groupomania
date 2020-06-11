@@ -28,7 +28,7 @@ class UserManager {
             connectdb.query(sql, function(err, result){
                 if (err) reject({ err });
                 // envoyer message utilisateur inexistant ?;
-                console.log(result);
+                //console.log(result);
                 bcrypt.compare(password, result[0].password) // result.password ?? result[0].password ?
                     .then(valid => { 
                         if (!valid) return reject({ error: 'Incorrect password !' });

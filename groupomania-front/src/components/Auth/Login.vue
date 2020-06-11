@@ -34,6 +34,7 @@ export default {
                 email: "",
                 password: "",
             },
+            dataLoginS: "",
             msg: false,
             message: ""
         }
@@ -43,9 +44,11 @@ export default {
             this.$refs.form.validate()
         },*/
         sendLogin(){
-            axios.post("http://localhost:3000/api/auth/login", this.dataLogin)
+            this.dataLoginS = JSON.stringify(this.dataLogin);
+            //console.log(this.dataLoginS);
+            axios.post('http://localhost:3000/api/auth/login', this.dataLoginS, {headers: {'Content-Type': 'application/json'}})
                 .then(response => {
-                    console.log(response);
+                    //console.log(response);
                     //console.log(response.data.userId);
                     //console.log(response.data.token);
                     

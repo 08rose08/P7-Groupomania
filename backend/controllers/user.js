@@ -9,6 +9,7 @@ let userManager = new UserManager();
 
 
 exports.signup = (req, res, next) => {
+    //let signupData = JSON.parse(req.body)
     let email = req.body.email;
 	let password = req.body.password;
 	let firstName = req.body.firstName;
@@ -29,6 +30,9 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+    //console.log(req.body);
+    //let loginData = JSON.parse(req.body);
+    //console.log(loginData);
     let email = req.body.email;
     //if (email === undefined){res.status(400).json({error: 'Undefined email'})};
     let password = req.body.password;

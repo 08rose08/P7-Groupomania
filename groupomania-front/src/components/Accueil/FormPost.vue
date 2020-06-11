@@ -44,6 +44,7 @@ export default {
                 content:"",
                 userId: this.$store.state.authObj.userId
             },
+            dataPostS: "",
             msg: false,
             message: "",
             
@@ -52,9 +53,10 @@ export default {
     },
     methods: {
         sendPost(){
-            axios.post("http://localhost:3000/api/posts/", this.dataPost, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            this.dataPostS = JSON.stringify(this.dataPost);
+            axios.post("http://localhost:3000/api/posts/", this.dataPostS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.$store.state.authObj.token}})
                 .then(response => {
-                    console.log(response);
+                    //console.log(response);
                     this.message=response.data.message;
                     this.msg=true;
                     this.form=false;

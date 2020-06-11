@@ -32,15 +32,23 @@
                 <v-divider></v-divider>
 
                 <v-list-item v-for="item in items" :key="item.title">
-                        <v-list-item-icon>
-                            <v-icon>{{ item.icon }}</v-icon>
-                        </v-list-item-icon>
+                    <v-list-item-icon>
+                        <v-icon>{{ item.icon }}</v-icon>
+                    </v-list-item-icon>
 
-                        <v-list-item-content>
-                            <router-link :to=item.link>
-                                <v-list-item-title>{{ item.title }}</v-list-item-title>
-                            </router-link>
-                        </v-list-item-content>
+                    <v-list-item-content>
+                        <router-link :to=item.link>
+                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        </router-link>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item>
+                    <v-list-item-icon>
+                        <v-icon>mdi-exit-to-app</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content @click="logout" class="logout">
+                        <v-list-item-title>Se déconnecter</v-list-item-title>
+                    </v-list-item-content>
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
@@ -57,10 +65,18 @@ export default {
                 { title: 'Accueil', icon: 'mdi-home-outline', link: '/Accueil'  },
                 { title: 'Profil', icon: 'mdi-account-circle', link: '/Accueil/Profil'},
                 { title: 'Mur', icon: 'mdi-view-dashboard-outline', link: '/Accueil/Mur' },
-                { title: 'Se déconnecter', icon: 'mdi-exit-to-app', link: '' },
+                //{ title: 'Se déconnecter', icon: 'mdi-exit-to-app', link: '' },
             ],
         }
     },
+    methods: {
+        logout(){
+            this.$store.state.authObj.userId = "";
+            this.$store.state.authObj.token = "";
+            //console.log(this.$store.state.authObj);
+             this.$router.push('/');
+        }
+    }
 }
 </script>
 
@@ -78,7 +94,9 @@ export default {
     .menu__header{
         position: fixed!important
     }
-    
+    .logout{
+        cursor: pointer;
+    }
     /*.hhead {
         
         background-color: rgb(253,45,1);
