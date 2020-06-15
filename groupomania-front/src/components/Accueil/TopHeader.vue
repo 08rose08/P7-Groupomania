@@ -71,8 +71,8 @@ export default {
     },
     methods: {
         logout(){
-            this.$store.state.authObj.userId = "";
-            this.$store.state.authObj.token = "";
+            localStorage.userId = "";
+            localStorage.token = "";
             //console.log(this.$store.state.authObj);
              this.$router.push('/');
         }

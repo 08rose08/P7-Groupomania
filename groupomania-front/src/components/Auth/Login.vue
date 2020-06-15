@@ -9,7 +9,7 @@
             </v-card-text>
             
                 <v-btn :disabled="!valid" class="success mb-3" @click="sendLogin()">Valider</v-btn>
-                <!--<p v-if="msg">{{ message }}</p>-->
+                <p v-if="msg">{{ message }}</p>
             
         </v-card>
     </v-app>
@@ -44,25 +44,32 @@ export default {
             this.$refs.form.validate()
         },*/
         sendLogin(){
+            //console.log(this.dataLogin);
             this.dataLoginS = JSON.stringify(this.dataLogin);
             //console.log(this.dataLoginS);
             axios.post('http://localhost:3000/api/auth/login', this.dataLoginS, {headers: {'Content-Type': 'application/json'}})
                 .then(response => {
-                    //console.log(response);
+                    //console.log(response.data);
+                    let log = JSON.parse(response.data);
+                    //console.log(log);
                     //console.log(response.data.userId);
                     //console.log(response.data.token);
                     
-                    this.$store.state.authObj.userId=response.data.userId;
-                    this.$store.state.authObj.token=response.data.token;
+                    //this.$store.state.authObj.userId = log.userId;
+                    //this.$store.state.authObj.token = log.token;
+
+                    localStorage.userId = log.userId;
+                    localStorage.token = log.token;
                     
+                    //console.log(localStorage.userId);
 
                     //console.log(this.$store.state.authObj);
                     this.$router.push('/Accueil');  
                 })
                 .catch(error => {
                     console.log(error); //affiche pas le message 'normalement' envoyé par le back
-                    this.message=error;
-                    this.msg=true 
+                    this.message = error;
+                    this.msg = true 
                 }); 
         }
     }

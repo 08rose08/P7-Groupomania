@@ -126,7 +126,7 @@ class PostsManager {
             if(liked === true){
                 connectdb.query(sql3, function(err, result, fields){
                     if(err) throw err;
-                    resolve({ mesage : 'Like canceled!' })
+                    resolve({ message : 'Like canceled!' })
                 })
             }
         })

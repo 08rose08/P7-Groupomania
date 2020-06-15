@@ -19,7 +19,7 @@ exports.signup = (req, res, next) => {
             let sqlInserts = [lastName, firstName, email, hash];
             userManager.signup(sqlInserts)
                 .then((response) =>{
-                    res.status(201).json(response)
+                    res.status(201).json(JSON.stringify(response))
                 })
                 .catch((error) =>{
                     console.error(error);
@@ -31,7 +31,7 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
     //console.log(req.body);
-    //let loginData = JSON.parse(req.body);
+    //let loginData = JSON.parse(req.body); 
     //console.log(loginData);
     let email = req.body.email;
     //if (email === undefined){res.status(400).json({error: 'Undefined email'})};
@@ -40,8 +40,8 @@ exports.login = (req, res, next) => {
     let sqlInserts = [email];
     userManager.login(sqlInserts, password)
         .then((response) =>{
-            //console.log(response);
-            res.status(200).json(response)
+            //console.log(JSON.stringify(response));
+            res.status(200).json(JSON.stringify(response))
         })
         .catch((error) =>{
             res.status(400).json(error)
@@ -65,12 +65,17 @@ exports.login = (req, res, next) => {
     })*/
 }
 exports.seeMyProfile = (req, res, next) => {
-    let userId = req.params.id;
+    //let userId = req.params.id;
+
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
+
     let sqlInserts = [userId];
     //console.log('avant le manager');
     userManager.seeMyProfile(sqlInserts)
         .then((response) =>{
-            res.status(200).json(response)
+            res.status(200).json(JSON.stringify(response))
         })
         .catch((error) =>{
             console.log(error);
@@ -78,14 +83,19 @@ exports.seeMyProfile = (req, res, next) => {
         })
 }   
 exports.updateUser = (req, res, next) => {
-    let userId = req.params.id;
+    //let userId = req.params.id;
+    
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
+
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
     let email = req.body.email;
     let sqlInserts = [firstName, lastName, email, userId];
     userManager.updateUser(sqlInserts)
         .then((response) =>{
-            res.status(200).json(response)
+            res.status(200).json(JSON.stringify(response))
         })
         .catch((error) =>{
             res.status(400).json(error)
@@ -97,7 +107,7 @@ exports.deleteUser = (req, res, next) => {
     let sqlInserts = [userId];
     userManager.deleteUser(sqlInserts)
         .then((response) =>{
-            res.status(200).json(response)
+            res.status(200).json(JSON.stringify(response))
         })
         .catch((error) =>{
             console.log(error);

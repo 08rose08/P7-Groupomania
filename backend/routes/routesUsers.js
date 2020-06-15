@@ -10,9 +10,9 @@ const userCtrl = require('../controllers/user');
 try{
     router.post('/signup', userCtrl.signup);
     router.post('/login', userCtrl.login);
-    router.get('/:id', auth, userCtrl.seeMyProfile);
-    router.delete('/:id', auth, userCtrl.deleteUser);
-    router.put('/:id', auth, userCtrl.updateUser);
+    router.get('/', auth, userCtrl.seeMyProfile);
+    router.delete('/', auth, userCtrl.deleteUser);
+    router.put('/', auth, userCtrl.updateUser);
 }catch (error){
     console.log(error);
 }

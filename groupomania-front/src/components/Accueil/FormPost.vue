@@ -42,7 +42,7 @@ export default {
             dataPost:{
                 title: "",
                 content:"",
-                userId: this.$store.state.authObj.userId
+                userId: localStorage.userId
             },
             dataPostS: "",
             msg: false,
@@ -54,19 +54,20 @@ export default {
     methods: {
         sendPost(){
             this.dataPostS = JSON.stringify(this.dataPost);
-            axios.post("http://localhost:3000/api/posts/", this.dataPostS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            axios.post("http://localhost:3000/api/posts/", this.dataPostS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
                     //console.log(response);
-                    this.message=response.data.message;
-                    this.msg=true;
-                    this.form=false;
+                    let rep = JSON.parse(response.data);
+                    this.message = rep.message;
+                    this.msg = true;
+                    this.form = false;
                     this.$router.push('/Accueil/Mur')
                     
                 })
                 .catch(error => {
                     console.log(error); //affiche pas le message 'normalement' envoyé par le back
-                    this.message=error;
-                    this.msg=true
+                    this.message = error;
+                    this.msg = true
                 });
         },
     },

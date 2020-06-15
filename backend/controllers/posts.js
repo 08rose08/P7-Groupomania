@@ -21,7 +21,7 @@ exports.getAllPosts = (req, res, next) => {
     postsManager.getAllPosts()
         .then((response) => {
             //console.log(response);
-            res.status(200).json(response);
+            res.status(200).json(JSON.stringify(response));
         });
 }
 exports.createPost = (req, res, next) => { 
@@ -31,7 +31,7 @@ exports.createPost = (req, res, next) => {
     let sqlInserts = [userId, title, content];
     postsManager.createPost(sqlInserts)
         .then((response) => {
-            res.status(201).json(response);
+            res.status(201).json(JSON.stringify(response));
         })
 }
 exports.updatePost = (req, res, next) => {
@@ -41,7 +41,7 @@ exports.updatePost = (req, res, next) => {
     let sqlInserts = [title, content, postId];
     postsManager.updatePost(sqlInserts)
         .then((response) => {
-            res.status(201).json(response);
+            res.status(201).json(JSON.stringify(response));
         })
 }
 exports.deletePost = (req, res, next) => {
@@ -49,7 +49,7 @@ exports.deletePost = (req, res, next) => {
     let sqlInserts = [postId];
     postsManager.deletePost(sqlInserts)
         .then((response) =>{
-            res.status(200).json(response);
+            res.status(200).json(JSON.stringify(response));
         })
 }
 
@@ -61,17 +61,18 @@ exports.getComments = (req, res, next) => {
     let sqlInserts = [postId];
     postsManager.getComments(sqlInserts)
         .then((response) =>{
-            res.status(200).json(response);
+            res.status(200).json(JSON.stringify(response));
         })
 }
 exports.createComment = (req, res, next) => { 
+    //console.log("dans create comment");
     let postId = req.params.id;
     let userId = req.body.userId;
     let content = req.body.content;
     let sqlInserts = [userId, postId, content];
     postsManager.createComment(sqlInserts)
         .then((response) =>{
-            res.status(201).json(response);
+            res.status(201).json(JSON.stringify(response));
         })
 }
 exports.updateComment = (req, res, next) => {
@@ -80,7 +81,7 @@ exports.updateComment = (req, res, next) => {
     let sqlInserts = [content, commentId];
     postsManager.updateComment(sqlInserts)
         .then((response) =>{
-            res.status(200).json(response);
+            res.status(200).json(JSON.stringify(response));
         })
 }
 exports.deleteComment = (req, res, next) => {
@@ -88,7 +89,7 @@ exports.deleteComment = (req, res, next) => {
     let sqlInserts = [commentId];
     postsManager.deleteComment(sqlInserts)
         .then((response) =>{
-            res.status(200).json(response);
+            res.status(200).json(JSON.stringify(response));
         })
 }
 
@@ -98,8 +99,8 @@ exports.deleteComment = (req, res, next) => {
 exports.getAllLikes = (req, res, next) =>{
      postsManager.getAllLikes()
         .then((response) =>{
-            console.log(response)
-            res.status(200).json(response);
+            //console.log(response)
+            res.status(200).json(JSON.stringify(response));
         })
 }
 exports.postLike = (req, res, next) => {
@@ -111,7 +112,7 @@ exports.postLike = (req, res, next) => {
     let sqlInserts2 = [nbLikes,postId];
     postsManager.postLike(sqlInserts1, sqlInserts2, req.body.liked)
         .then((response) =>{
-            res.status(201).json(response)
+            res.status(201).json(JSON.stringify(response))
         }) 
 }
 

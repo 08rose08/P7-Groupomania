@@ -104,11 +104,14 @@ export default {
     },
     methods: {
         deleteUser() {
-            axios.delete("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            
+            axios.delete("http://localhost:3000/api/auth/", {headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response => {
-                console.log(response.data);
-                this.$store.state.authObj.userId = "";
-                this.$store.state.authObj.token = "";
+                //console.log(response.data);
+                let rep = JSON.parse(response.data);
+                console.log(rep);
+                localStorage.userId = "";
+                localStorage.token = "";
                 //console.log(this.$store.state.authObj);
                 this.$router.push('/');  
             })
@@ -118,16 +121,19 @@ export default {
             })
         },
         updateUser() {
-            console.log("c'est cliqué");
+            //console.log("c'est cliqué");
             this.dataUpS = JSON.stringify(this.dataUp);
-            axios.put("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId, this.dataUpS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            axios.put("http://localhost:3000/api/auth/", this.dataUpS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
             .then(response => {
-                console.log(response.data);
+                //console.log(response.data);
+                let rep = JSON.parse(response.data);
+                console.log(rep);
                 //this.$store.state.authObj.userId = "";
                 //this.$store.state.authObj.token = "";
                 //console.log(this.$store.state.authObj);
                 //this.$router.push('/');
-                this.dialogUp = false 
+                this.dialogUp = false;
+                window.location.assign('http://localhost:8080/Accueil/Profil');
             })
             .catch(error => {
                 console.log(error);
@@ -137,16 +143,21 @@ export default {
     },
     mounted() { 
         //console.log("mounted");
-        axios.get("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+        //console.log(localStorage.userId);
+        //axios.get("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+        axios.get("http://localhost:3000/api/auth/", {headers: {Authorization: 'Bearer ' + localStorage.token}})
+
             .then(response => {
                 //console.log("consoleLog du front");
-                console.log(response.data);
-                this.dataGet.email = response.data[0].email;
-                this.dataGet.firstName = response.data[0].firstName;
-                this.dataGet.lastName = response.data[0].lastName;
-                this.dataUp.email = response.data[0].email;
-                this.dataUp.firstName = response.data[0].firstName;
-                this.dataUp.lastName = response.data[0].lastName;
+                //console.log(response.data);
+                let profil = JSON.parse(response.data);
+                //console.log(profil);
+                this.dataGet.email = profil[0].email;
+                this.dataGet.firstName = profil[0].firstName;
+                this.dataGet.lastName = profil[0].lastName;
+                this.dataUp.email = profil[0].email;
+                this.dataUp.firstName = profil[0].firstName;
+                this.dataUp.lastName = profil[0].lastName;
             })
             .catch(error => {
                 console.log(error);

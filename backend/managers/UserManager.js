@@ -24,25 +24,30 @@ class UserManager {
     login(sqlInserts, password){
         let sql = "SELECT * FROM users WHERE email = ?";
         sql = mysql.format(sql, sqlInserts);
+        
         return new Promise((resolve, reject) =>{
             connectdb.query(sql, function(err, result){
                 if (err) reject({ err });
                 // envoyer message utilisateur inexistant ?;
-                //console.log(result);
-                bcrypt.compare(password, result[0].password) // result.password ?? result[0].password ?
-                    .then(valid => { 
-                        if (!valid) return reject({ error: 'Incorrect password !' });
-                        console.log('après le if !valid');
-                        resolve({
-                            userId: result[0].id, // result[0].id?
-                            token: jwt.sign(
-                                { userId: result[0].id }, //result[0].id ??
-                                'RANDOM_TOKEN_SECRET',
-                                { expiresIn: '24h' } //+/- journée de travail 8+1h
-                            )
-                        });
-                    })
-                    .catch(error => reject({ error }));
+                //console.log(result[0]);
+                if (!result[0]){
+                    reject ({ error : 'Utilisateur introuvable !'});
+                } else {
+                    bcrypt.compare(password, result[0].password) // result.password ?? result[0].password ?
+                        .then(valid => { 
+                            if (!valid) return reject({ error: 'Incorrect password !' });
+                            //console.log('après le if !valid');
+                            resolve({
+                                userId: result[0].id, // result[0].id?
+                                token: jwt.sign(
+                                    { userId: result[0].id }, //result[0].id ??
+                                    'RANDOM_TOKEN_SECRET',
+                                    { expiresIn: '24h' } //+/- journée de travail 8+1h
+                                )
+                            });
+                        })
+                        .catch(error => reject({ error }));
+                }
             })
         
         })
@@ -68,7 +73,7 @@ class UserManager {
             connectdb.query(sql, function(err, result){
                 //console.log('avant le if err');
                 if (err) return reject({error : 'fonction indisponible'});
-                //console.log('après le if err');
+                //console.log('après le if err'); 
                 resolve({message : 'User updated.'});
             }) 
 

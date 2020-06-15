@@ -60,7 +60,8 @@ export default {
             axios.post('http://localhost:3000/api/auth/signup', this.dataSignupS, {headers: {'Content-Type': 'application/json'}})
             .then(response => {
                 //console.log(response);
-                this.message = response.data.message;
+                let sign = JSON.parse(response.data);
+                this.message = sign.message;
                 this.form = false;
                 this.msg = true;
             })

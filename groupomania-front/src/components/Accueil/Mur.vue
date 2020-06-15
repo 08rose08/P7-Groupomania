@@ -23,13 +23,13 @@
                             {{ post.content }}
                         </v-card-text>
 
-                        <v-card-actions class="mur__post__manage" v-if="post.userId === $store.state.authObj.userId">
+                        <v-card-actions class="mur__post__manage" v-if="post.userId == userId">
                             <v-btn class="mur__post__manage--btn" title="modifier le post" @click.stop="goDialogUpPost(post.title, post.content, post.id)" icon>
                                 <v-icon>mdi-pencil-outline</v-icon>
                             </v-btn>
                             <v-btn class="mur__post__manage--btn" title="supprimer le post" @click="deletePost(post.id)" icon>
                                 <v-icon>mdi-delete-outline</v-icon>
-                            </v-btn>
+                            </v-btn> 
                         </v-card-actions>
 
                         <v-card-text class="py-0">
@@ -76,7 +76,7 @@
                                     {{ comment.comContent }}
                                 </v-card-text>
 
-                                <v-card-actions class="mur__comments__manage" v-if="comment.userId === $store.state.authObj.userId">
+                                <v-card-actions class="mur__comments__manage" v-if="comment.userId == userId">
                                     <v-btn title="modifier le commentaire" class="mur__comments__manage--btn" @click.stop="goDialogUpCom(comment.comContent, comment.id)" icon>
                                         <v-icon >mdi-pencil-outline</v-icon>
                                     </v-btn>
@@ -132,6 +132,7 @@ export default {
     name: "Mur",
     data(){
         return{
+            userId: "",
             //affichePsts: true,
             //afficheFrmPst: false,
             afficheFrmCm: false,
@@ -183,46 +184,64 @@ export default {
             this.postId = pId;
             this.afficheFrmCm = false;
             //console.log(pId)
-            axios.get("http://localhost:3000/api/posts/" + pId + "/comments", {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            axios.get("http://localhost:3000/api/posts/" + pId + "/comments", {headers: {Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
                     //console.log(response);
-                    this.allComments = response.data;
+                    let com = JSON.parse(response.data);
+                    //console.log(com);
+                    this.allComments = com;
+                    
                 })
                 .catch(error => {
                 console.log(error);
                 });
         },
         sendCom(pId){
-            this.dataCom.userId = this.$store.state.authObj.userId;
+            this.dataCom.userId = this.userId;
             this.dataComS = JSON.stringify(this.dataCom);
-            axios.post("http://localhost:3000/api/posts/" + pId + "/comments", this.dataComS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            console.log(this.dataComS);
+            console.log(localStorage.token);
+            //axios.get("http://localhost:3000/api/posts",                                      {headers:                                     {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
+            axios.post("http://localhost:3000/api/posts/" + pId + "/comments", this.dataComS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
-                    console.log(response);
+                    //console.log(response);
+                    console.log("dans sendCom");
                     //this.message=response.data.message;
+                    let rep = JSON.parse(response.data);
+                    console.log(rep.message);
                     //this.msg=true;
                     this.dataCom.content="";
                     this.dataCom.userId="";
-                    this.afficheFrmCm=false
+                    this.afficheFrmCm=false;
+                    //window.location.assign('http://localhost:8080/Accueil/Mur');
                 })
                 .catch(error => {
+                    console.log("dans le catch");
                     console.log(error); //affiche pas le message 'normalement' envoyé par le back
                     this.message=error;
                     this.msg=true
                 });
         },
         deletePost(pId){
-            axios.delete("http://localhost:3000/api/posts/" + pId, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            axios.delete("http://localhost:3000/api/posts/" + pId, {headers: {Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
-                    console.log(response);
+                    //console.log(response);
+                    let rep = JSON.parse(response.data);
+                    console.log(rep.message);
+                    window.location.assign('http://localhost:8080/Accueil/Mur');
+
                 })
                 .catch(error => {
                     console.log(error);    
                 })
         },
         deleteCom(cId){
-            axios.delete("http://localhost:3000/api/posts/comments/" + cId, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            axios.delete("http://localhost:3000/api/posts/comments/" + cId, {headers: {Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
-                    console.log(response);
+                    //console.log(response);
+                    let rep = JSON.parse(response.data);
+                    console.log(rep.message);
+                    window.location.assign('http://localhost:8080/Accueil/Mur');
                 })
                 .catch(error => {
                     console.log(error);
@@ -235,17 +254,20 @@ export default {
             this.dialogUpPost = true;
         },
         updatePost(){
-            this.dataPost.userId = this.$store.state.authObj.userId;
+            this.dataPost.userId = localStorage.userId;
             this.dataPostS = JSON.stringify(this.dataPost);
-            axios.put("http://localhost:3000/api/posts/" + this.dataPost.id, this.dataPostS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            axios.put("http://localhost:3000/api/posts/" + this.dataPost.id, this.dataPostS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
-                    console.log(response);
+                    //console.log(response);
+                    let rep = JSON.parse(response.data);
+                    console.log(rep.message);
                     this.dataPost.title = "";
                     this.dataPost.content = "";
                     this.dataPost.userId = "";
                     this.dataPost.id = "";
                     //this.afficheFrmCm = false;
                     this.dialogUpPost = false;
+                    window.location.assign('http://localhost:8080/Accueil/Mur');
                 })
                 .catch(error => {
                     console.log(error);
@@ -259,15 +281,18 @@ export default {
             this.dialogUpCom = true; 
         },
         updateCom(){
-            this.dataCom.userId = this.$store.state.authObj.userId;
+            this.dataCom.userId = localStorage.userId;
             this.dataComS = JSON.stringify(this.dataComS);
-            axios.put("http://localhost:3000/api/posts/comments/" + this.dataCom.id, this.dataComS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            axios.put("http://localhost:3000/api/posts/comments/" + this.dataCom.id, this.dataComS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
-                    console.log(response);
+                    //console.log(response);
+                    let rep = JSON.parse(response.data);
+                    console.log(rep.message);
                     this.dataCom.content = "";
                     this.dataCom.userId = "";
                     this.afficheFrmCm = false;
                     this.dialogUpCom = false;
+                    window.location.assign('http://localhost:8080/Accueil/Mur');
                 })
                 .catch(error => {
                     console.log(error);
@@ -303,7 +328,7 @@ export default {
         likePost(postId, nbLikes){
             //console.log(this.dataLike.liked);
             this.allLikes.forEach(element => {
-                if(element.postId === postId && element.userId === this.$store.state.authObj.userId){
+                if(element.postId === postId && element.userId === localStorage.userId){
                     //console.log('dans le if');
                     this.dataLike.nbLikes = nbLikes+-1;
                     this.dataLike.liked = true;
@@ -320,15 +345,18 @@ export default {
             }
             
             
-            this.dataLike.userId = this.$store.state.authObj.userId;
+            this.dataLike.userId = localStorage.userId;
             this.dataLike.postId = postId;
             //console.log(this.dataLike);
             console.log(this.dataLike.liked);
-            //this.dataLikeS = JSON.stringify(this.dataLike);
-            axios.post("http://localhost:3000/api/posts/" + postId + "/like", this.dataLikeS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+            this.dataLikeS = JSON.stringify(this.dataLike);
+            axios.post("http://localhost:3000/api/posts/" + postId + "/like", this.dataLikeS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
-                    console.log(response);
+                    //console.log(response);
+                    let rep = JSON.parse(response.data);
+                    console.log(rep.message);
                     this.dataLike.liked = false;
+                    window.location.assign('http://localhost:8080/Accueil/Mur');
 
                 })
                 .catch(error => {
@@ -342,23 +370,32 @@ export default {
         "top-header": TopHeader, 
         //"form-post": FormPost,
     },
-    created(){
-        axios.get("http://localhost:3000/api/posts", {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+    mounted(){
+        console.log(localStorage.userId);
+        this.userId = localStorage.userId;
+        console.log(this.userId);
+        axios.get("http://localhost:3000/api/posts", {headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response => {
                 //console.log(response.data);
-                this.allPosts = response.data;
+                let posts = JSON.parse(response.data);
+                //console.log(posts);
+                this.allPosts = posts;
             })
             .catch(error => {
             console.log(error); //affiche pas le message 'normalement' envoyé par le back
             });
-        axios.get("http://localhost:3000/api/posts/likes", {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
+        axios.get("http://localhost:3000/api/posts/likes", {headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response =>{
-                this.allLikes = response.data;
-                //console.log(this.allLikes)
+                //console.log(response.data);
+                let likes = JSON.parse(response.data);
+                //console.log(likes);
+                this.allLikes = likes;
+                console.log(this.allLikes);
             })
             .catch(error => {
                 console.log(error)
-            })
+            });
+
         /*axios.get("http://localhost:3000/api/posts/comments")
                 .then(response => {
                     this.nbCom=response.data;
