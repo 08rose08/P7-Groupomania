@@ -60,6 +60,7 @@ export default {
 
                     localStorage.userId = log.userId;
                     localStorage.token = log.token;
+                    localStorage.moderation = log.moderation;
                     
                     //console.log(localStorage.userId);
 

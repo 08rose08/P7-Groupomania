@@ -29,7 +29,7 @@ class UserManager {
             connectdb.query(sql, function(err, result){
                 if (err) reject({ err });
                 // envoyer message utilisateur inexistant ?;
-                //console.log(result[0]);
+                console.log(result[0]);
                 if (!result[0]){
                     reject ({ error : 'Utilisateur introuvable !'});
                 } else {
@@ -40,10 +40,13 @@ class UserManager {
                             resolve({
                                 userId: result[0].id, // result[0].id?
                                 token: jwt.sign(
-                                    { userId: result[0].id }, //result[0].id ??
+                                    { userId: result[0].id,
+                                    moderation: result[0].moderation },
+                                    //{ moderation: result[0].moderation }, //result[0].id ??
                                     'RANDOM_TOKEN_SECRET',
                                     { expiresIn: '24h' } //+/- journée de travail 8+1h
-                                )
+                                ),
+                                moderation: result[0].moderation
                             });
                         })
                         .catch(error => reject({ error }));

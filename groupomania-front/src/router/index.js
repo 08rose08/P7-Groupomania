@@ -6,6 +6,7 @@ import Accueil from '../components/Accueil.vue'
 import Profil from '../components/Accueil/Profil.vue'
 import Mur from '../components/Accueil/Mur.vue'
 import Post from '../components/Accueil/FormPost.vue'
+import Moderation from '../components/Accueil/Moderation.vue'
 
 
 Vue.use(VueRouter)
@@ -37,13 +38,18 @@ Vue.use(VueRouter)
     component: Post
   },
   {
+    path: '/Accueil/Moderation',
+    name: 'Moderation',
+    component: Moderation
+  },
+  /*{
     path: '/about',
     name: 'About',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    component: () => import(/* webpackChunkName: "about" *//* '../views/About.vue')
+  }*/
 ]
 
 const router = new VueRouter({

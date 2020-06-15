@@ -42,11 +42,21 @@
                         </router-link>
                     </v-list-item-content>
                 </v-list-item>
+
+                <v-list-item v-if="this.modo==1">
+                    <v-list-item-icon>
+                        <v-icon>mdi-cog-outline</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content @click="moderation" class="lien">
+                        <v-list-item-title>Modération</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
                 <v-list-item>
                     <v-list-item-icon>
                         <v-icon>mdi-exit-to-app</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-content @click="logout" class="logout">
+                    <v-list-item-content @click="logout" class="lien">
                         <v-list-item-title>Se déconnecter</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
@@ -60,6 +70,7 @@ export default {
     name : 'TopHeader',
     data(){
         return {
+            modo: "",
             drawer: true,
             items: [
                 { title: 'Accueil', icon: 'mdi-home-outline', link: '/Accueil'  },
@@ -73,10 +84,18 @@ export default {
         logout(){
             localStorage.userId = "";
             localStorage.token = "";
+            localStorage.moderation = "";
             //console.log(this.$store.state.authObj);
              this.$router.push('/');
+        },
+        moderation(){
+            this.$router.push('/Accueil/Moderation')
         }
-    }
+    },
+    mounted(){
+        this.modo = localStorage.moderation;
+        console.log(this.modo);
+    },
 }
 </script>
 
@@ -94,7 +113,7 @@ export default {
     .menu__header{
         position: fixed!important
     }
-    .logout{
+    .lien{
         cursor: pointer;
     }
     /*.hhead {

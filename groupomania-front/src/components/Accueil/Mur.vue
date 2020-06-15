@@ -133,6 +133,7 @@ export default {
     data(){
         return{
             userId: "",
+            admin: "",
             //affichePsts: true,
             //afficheFrmPst: false,
             afficheFrmCm: false,
@@ -371,9 +372,8 @@ export default {
         //"form-post": FormPost,
     },
     mounted(){
-        console.log(localStorage.userId);
         this.userId = localStorage.userId;
-        console.log(this.userId);
+        //this.admin = localStorage.admin;
         axios.get("http://localhost:3000/api/posts", {headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response => {
                 //console.log(response.data);
@@ -390,7 +390,7 @@ export default {
                 let likes = JSON.parse(response.data);
                 //console.log(likes);
                 this.allLikes = likes;
-                console.log(this.allLikes);
+                //console.log(this.allLikes);
             })
             .catch(error => {
                 console.log(error)
