@@ -62,7 +62,7 @@ export default {
                     localStorage.token = log.token;
                     localStorage.moderation = log.moderation;
                     
-                    console.log(localStorage.token);
+                    //console.log(localStorage.token);
 
                     //console.log(this.$store.state.authObj);
                     this.$router.push('/Accueil');  

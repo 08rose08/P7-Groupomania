@@ -11,26 +11,29 @@
                     <v-btn class="ma-3" @click="afficheForm">Créer un post</v-btn>
                     <!--posts-->
                     <v-card class="mur__post ma-3 mt-6" v-for="(post, index) in allPosts" v-bind:key="index">
-                        <v-card-title>
-                            <h2 class="mur__post__title">{{ post.title }}</h2>
-                        </v-card-title>
+                        <div class="d-flex justify-space-between">
+                            <v-card-title>
+                                <h2 class="mur__post__title ml-0">{{ post.title }}</h2>
+                            </v-card-title>
+                            <v-card-actions class=" mur__post__manage" v-if="post.userId == userId">
+                                <v-btn class=" mur__post__manage--btn" title="modifier le post" @click.stop="goDialogUpPost(post.title, post.content, post.id)" icon>
+                                    <v-icon>mdi-pencil-outline</v-icon>
+                                </v-btn>
+                                <v-btn class=" mur__post__manage--btn" title="supprimer le post" @click="deletePost(post.id)" icon>
+                                    <v-icon>mdi-delete-outline</v-icon>
+                                </v-btn> 
+                            </v-card-actions>
+
+                        </div>
 
                         <v-card-subtitle class=" mur__post__name">
-                            By {{ post.firstName }} {{ post.lastName }}, le {{ post.date }}
+                            Par {{ post.firstName }} {{ post.lastName }}, le {{ post.date }}
                         </v-card-subtitle>
 
                         <v-card-text class="v-card-text black--text mur__post__content" >
                             {{ post.content }}
                         </v-card-text>
 
-                        <v-card-actions class="mur__post__manage" v-if="post.userId == userId">
-                            <v-btn class="mur__post__manage--btn" title="modifier le post" @click.stop="goDialogUpPost(post.title, post.content, post.id)" icon>
-                                <v-icon>mdi-pencil-outline</v-icon>
-                            </v-btn>
-                            <v-btn class="mur__post__manage--btn" title="supprimer le post" @click="deletePost(post.id)" icon>
-                                <v-icon>mdi-delete-outline</v-icon>
-                            </v-btn> 
-                        </v-card-actions>
 
                         <v-card-text class="py-0">
                             <v-btn title="like ?" fab class="ma-3" color="rgb(255,215,215)"  @click="likePost(post.id, post.likes)">
@@ -67,16 +70,16 @@
                         
                         <!--comments-->
                         <div class="mur__comments" v-if="postId === post.id">
-                            <v-card class="mur__comments--ind my-1 mx-2 pa-0" color="rgba(255,215,215,0.3)" v-for="(comment, index) in allComments" v-bind:key="index" outlined>
-                                <v-card-subtitle class=" pb-0 mur__comments__name">
+                            <v-card class="mur__comments--ind my-1 mx-2 pa-3 " color="rgba(255,215,215,0.3)" v-for="(comment, index) in allComments" v-bind:key="index" outlined>
+                                <v-card-subtitle class="pa-0 mur__comments__name">
                                     Le {{ comment.date }}, {{ comment.firstName }} {{ comment.lastName }} commente :
                                 </v-card-subtitle>
 
-                                <v-card-text class="text--primary mur__comments__content ">
+                                <v-card-text class="pa-0 text--primary mur__comments__content ">
                                     {{ comment.comContent }}
                                 </v-card-text>
 
-                                <v-card-actions class="mur__comments__manage" v-if="comment.userId == userId">
+                                <v-card-actions class="d-flex justify-end pa-0 mur__comments__manage" v-if="comment.userId == userId">
                                     <v-btn title="modifier le commentaire" class="mur__comments__manage--btn" @click.stop="goDialogUpCom(comment.comContent, comment.id)" icon>
                                         <v-icon >mdi-pencil-outline</v-icon>
                                     </v-btn>
@@ -413,7 +416,8 @@ export default {
     }
     
     .mur{
-        &__post{
+        /*&__post{
+            
             &__manage{
                 position: absolute!important;
                 top: 10px!important;
@@ -424,13 +428,13 @@ export default {
                     margin-left: 0!important;
                 }
             }
-        }
+        }*/
         &__comments{
             &--ind{
                 position: relative;
             }
         
-            &__manage{
+            /*&__manage{
                 position: absolute!important;
                 top: 0!important;
                 right: 0!important;
@@ -441,7 +445,7 @@ export default {
                     margin-left: 0!important;
     
                 }
-            }
+            }*/
         }
    }
 
