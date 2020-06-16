@@ -1,6 +1,6 @@
 <template>
     <v-app class="login ma-auto mt-6">
-        <v-card class="login__card" shaped>
+        <v-card shaped>
             <v-card-text>
                 <v-form ref="form" v-model="valid">
                     <v-text-field v-model="dataLogin.email" :rules="emailRules" label="e-mail" prepend-icon="mdi-at" required autofocus></v-text-field>
@@ -8,8 +8,8 @@
                 </v-form>
             </v-card-text>
             
-                <v-btn :disabled="!valid" class="success mb-3" @click="sendLogin()">Valider</v-btn>
-                <p v-if="msg">{{ message }}</p>
+            <v-btn :disabled="!valid" class="success mb-3" @click="sendLogin()">Valider</v-btn>
+            <p v-if="msg">{{ message }}</p>
             
         </v-card>
     </v-app>
@@ -62,7 +62,7 @@ export default {
                     localStorage.token = log.token;
                     localStorage.moderation = log.moderation;
                     
-                    //console.log(localStorage.userId);
+                    console.log(localStorage.token);
 
                     //console.log(this.$store.state.authObj);
                     this.$router.push('/Accueil');  

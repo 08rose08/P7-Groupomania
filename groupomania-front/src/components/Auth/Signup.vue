@@ -1,6 +1,18 @@
 <template>
-    <div class="signup" v-if="form">
-        <v-form class="signup__form" ref="form" v-model="valid">
+    <v-app class="signup ma-auto mt-6" v-if="form">
+        <v-card class="signup__card" shaped>
+            <v-card-text>
+                <v-form ref="form" v-model="valid">
+                    <v-text-field  v-model="dataSignup.firstName" :rules="nameRules" label="Prénom" prepend-icon="mdi-account-circle" autofocus required></v-text-field>
+                    <v-text-field  v-model="dataSignup.lastName" :rules="nameRules" label="Nom" prepend-icon="mdi-account-circle" required></v-text-field>
+                    <v-text-field  v-model="dataSignup.email" :rules="emailRules" label="e-mail" prepend-icon="mdi-at" required></v-text-field>
+                    <v-text-field  v-model="dataSignup.password" :rules="passRules" type="password" label="mot de passe" prepend-icon="mdi-lock" required></v-text-field>
+                </v-form>
+                <v-btn :disabled="!valid" class="success" @click="sendSignup()">Envoyer</v-btn>
+                <p v-if="msg">{{ message }}</p>
+
+            </v-card-text>
+        </v-card>
             <!--<label for="prenom">Prénom :</label>
             <input v-model="dataSignup.firstName" type="text" id="prenom">
 
@@ -12,17 +24,10 @@
 
             <label for="password">Mot de passe :</label>
             <input v-model="dataSignup.password" type="password" id="password">-->
-            <v-text-field  v-model="dataSignup.firstName" :rules="nameRules" label="Prénom" prepend-icon="mdi-account-circle" autofocus required></v-text-field>
-            <v-text-field  v-model="dataSignup.lastName" :rules="nameRules" label="Nom" prepend-icon="mdi-account-circle" required></v-text-field>
-            <v-text-field  v-model="dataSignup.email" :rules="emailRules" label="e-mail" prepend-icon="mdi-at" required></v-text-field>
-            <v-text-field  v-model="dataSignup.password" :rules="passRules" type="password" label="mot de passe" prepend-icon="mdi-lock" required></v-text-field>
 
             <!--button @click.prevent="sendSignup">Envoyer</button>-->
-        </v-form>
-        <v-btn :disabled="!valid" class="success" @click="sendSignup()">Envoyer</v-btn>
-        <p v-if="msg">{{ message }}</p>
 
-    </div>
+    </v-app>
 </template>
 <script>
 import axios from "axios"
@@ -78,16 +83,13 @@ export default {
 </script>
 <style lang="scss">
     .signup{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: auto;
-        margin-top: 7%;
+        position: relative;
+        top : 5%;
         width: 350px;
-        background-color: rgba(255,255,255,0.7);
-        border-radius: 10px;
-        &__form{
-            width: 100%;
-        }
+        max-height: 200px;
+        //width: 50%!important;
+        text-align: center;
+        
+        
     }
 </style>

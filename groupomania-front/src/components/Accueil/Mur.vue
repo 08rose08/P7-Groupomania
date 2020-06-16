@@ -33,8 +33,8 @@
                         </v-card-actions>
 
                         <v-card-text class="py-0">
-                            <v-btn fab class="ma-3" color="rgb(255,215,215)" title="liker le post" @click="likePost(post.id, post.likes)">
-                                <v-icon>mdi-heart-plus-outline</v-icon>
+                            <v-btn title="like ?" fab class="ma-3" color="rgb(255,215,215)"  @click="likePost(post.id, post.likes)">
+                                <v-icon >mdi-heart-outline</v-icon>
                             </v-btn> 
                             {{ post.likes }}
                             <v-icon>mdi-heart-outline</v-icon>

@@ -1,7 +1,7 @@
 <template>
     <div id="profil" class="d-flex justify-center">
         <top-header/>
-        <v-card class="ma-12" min-width="400px" flat>
+        <v-card class="ma-12" min-width="300px" flat>
             <v-card-title class="my-3" >
                 <h1>Mon profil</h1>
             </v-card-title>

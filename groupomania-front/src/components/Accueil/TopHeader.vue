@@ -94,7 +94,7 @@ export default {
     },
     mounted(){
         this.modo = localStorage.moderation;
-        console.log(this.modo);
+        //console.log(this.modo);
     },
 }
 </script>

@@ -35,21 +35,40 @@ exports.createPost = (req, res, next) => {
         })
 }
 exports.updatePost = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
+
     let title = req.body.title;
     let content = req.body.content;
     let postId = req.params.id;
-    let sqlInserts = [title, content, postId];
-    postsManager.updatePost(sqlInserts)
+
+    let sqlInserts1 = [postId];
+    let sqlInserts2 = [title, content, postId, userId];
+    postsManager.updatePost(sqlInserts1, sqlInserts2)
         .then((response) => {
             res.status(201).json(JSON.stringify(response));
         })
+        .catch((error) =>{
+            console.log(error);
+            res.status(400).json(JSON.stringify(error));
+        })
 }
 exports.deletePost = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
+    //console.log(userId);
     let postId = req.params.id;
-    let sqlInserts = [postId];
-    postsManager.deletePost(sqlInserts)
+    let sqlInserts1 = [postId];
+    let sqlInserts2 = [postId, userId];
+    postsManager.deletePost(sqlInserts1, sqlInserts2)
         .then((response) =>{
             res.status(200).json(JSON.stringify(response));
+        })
+        .catch((error) =>{
+            console.log(error);
+            res.status(400).json(JSON.stringify(error));
         })
 }
 
@@ -75,13 +94,33 @@ exports.createComment = (req, res, next) => {
             res.status(201).json(JSON.stringify(response));
         })
 }
-exports.updateComment = (req, res, next) => {
+/*exports.updateComment = (req, res, next) => {
     let content = req.body.content;
     let commentId = req.params.id;
     let sqlInserts = [content, commentId];
     postsManager.updateComment(sqlInserts)
         .then((response) =>{
             res.status(200).json(JSON.stringify(response));
+        })
+}*/
+exports.updateComment = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
+
+    
+    let content = req.body.content;
+    let commentId = req.params.id;
+
+    let sqlInserts1 = [commentId];
+    let sqlInserts2 = [content, commentId, userId];
+    postsManager.updatePost(sqlInserts1, sqlInserts2)
+        .then((response) => {
+            res.status(201).json(JSON.stringify(response));
+        })
+        .catch((error) =>{
+            console.log(error);
+            res.status(400).json(JSON.stringify(error));
         })
 }
 exports.deleteComment = (req, res, next) => {
@@ -90,6 +129,23 @@ exports.deleteComment = (req, res, next) => {
     postsManager.deleteComment(sqlInserts)
         .then((response) =>{
             res.status(200).json(JSON.stringify(response));
+        })
+}
+exports.deleteComment = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
+    //console.log(userId);
+    let commentId = req.params.id;
+    let sqlInserts1 = [commentId];
+    let sqlInserts2 = [commentId, userId];
+    postsManager.deletePost(sqlInserts1, sqlInserts2)
+        .then((response) =>{
+            res.status(200).json(JSON.stringify(response));
+        })
+        .catch((error) =>{
+            console.log(error);
+            res.status(400).json(JSON.stringify(error));
         })
 }
 
