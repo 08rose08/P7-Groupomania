@@ -10,10 +10,11 @@ class PostsManager {
 //POSTS
 
     getAllPosts(){
-        let sql = "SELECT posts.id, posts.userId, posts.title, posts.content, posts.date, posts.likes, users.lastName, users.firstName FROM posts JOIN users ON posts.userId = users.id ORDER BY posts.date DESC";
+        let sql = "SELECT posts.id, posts.userId, posts.title, posts.content, DATE_FORMAT(DATE(posts.date), '%d/%m/%Y') AS date, TIME(posts.date) AS time, posts.likes, users.lastName, users.firstName FROM posts JOIN users ON posts.userId = users.id ORDER BY posts.date DESC";
         return new Promise((resolve) =>{
             connectdb.query(sql, function (err, result, fields) {
                 if (err) throw err;
+                console.log(result);
                 resolve(result)
             });
         })
@@ -73,7 +74,7 @@ class PostsManager {
 // COMMENTS
 
     getComments(sqlInserts){
-        let sql = "SELECT comments.comContent, comments.date, comments.id, comments.userId, users.firstName, users.lastName FROM comments JOIN users on comments.userId = users.id WHERE postId = ? ORDER BY date";
+        let sql = "SELECT comments.comContent, DATE_FORMAT(comments.date, '%d/%m/%Y à %H:%i:%s') AS date, comments.id, comments.userId, users.firstName, users.lastName FROM comments JOIN users on comments.userId = users.id WHERE postId = ? ORDER BY date";
         sql = mysql.format(sql, sqlInserts);
         return new Promise((resolve) =>{
             connectdb.query(sql, function (err, result, fields){
@@ -168,7 +169,7 @@ class PostsManager {
         })
     }
     postLike(sqlInserts1, sqlInserts2, liked){
-        let sql1 = "INSERT INTO likes VALUES (?, ?)"; 
+        let sql1 = "INSERT INTO likes VALUES (NULL, ?, ?)"; 
         sql1 = mysql.format(sql1, sqlInserts1);
         let sql2 = "UPDATE posts SET likes = ? WHERE id = ?";
         sql2 = mysql.format(sql2, sqlInserts2);

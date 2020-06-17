@@ -27,7 +27,7 @@
                         </div>
 
                         <v-card-subtitle class=" mur__post__name">
-                            Par {{ post.firstName }} {{ post.lastName }}, le {{ post.date }}
+                            Par {{ post.firstName }} {{ post.lastName }}, le {{ post.date }} à {{ post.time }}
                         </v-card-subtitle>
 
                         <v-card-text class="v-card-text black--text mur__post__content" >
@@ -36,8 +36,8 @@
 
 
                         <v-card-text class="py-0">
-                            <v-btn title="like ?" fab class="ma-3" color="rgb(255,215,215)"  @click="likePost(post.id, post.likes)">
-                                <v-icon >mdi-heart-outline</v-icon>
+                            <v-btn fab title="like ?" class="ma-3" color="rgb(255,215,215)"  @click="likePost(post.id, post.likes)">
+                                    <v-icon >mdi-heart-outline</v-icon>
                             </v-btn> 
                             {{ post.likes }}
                             <v-icon>mdi-heart-outline</v-icon>
@@ -55,7 +55,7 @@
                                 <v-card-title>Modifier mon post</v-card-title>
                                 <v-card-text>
                                     <v-form ref="form" v-model="valid">
-                                        <v-text-field v-model="dataPost.title" :rules="titleRules" label="Titre"></v-text-field>
+                                        <v-text-field v-model="dataPost.title" :rules="titleRules" :counter="50" label="Titre"></v-text-field>
                                         <v-textarea v-model="dataPost.content" :rules="contentRules" label="Commentaire"></v-textarea>
                                     </v-form>
                                 </v-card-text>
@@ -94,7 +94,7 @@
                                         <v-card-title>Modifier mon commentaire</v-card-title>
                                         <v-card-text>
                                             <v-form ref="form" v-model="valid">
-                                                <v-textarea v-model="dataCom.content" :rules="contentRules" label="Commentaire"></v-textarea>
+                                                <v-textarea v-model="dataCom.content" :rules="comContentRules" :counter="255" label="Commentaire"></v-textarea>
                                             </v-form>
                                         </v-card-text>
                                         <v-card-actions>
@@ -111,7 +111,7 @@
                             <!--new comment - form-->
                             <v-card v-if="afficheFrmCm">
                                 <v-form  ref="form" class="ma-3" v-model="valid" v-if="form">
-                                    <v-textarea background-color="rgba(255,215,215,0.3)" v-model="dataCom.content" :rules="contentRules" label="Commentaire" autofocus required></v-textarea>
+                                    <v-textarea background-color="rgba(255,215,215,0.3)" v-model="dataCom.content" :rules="comContentRules" :counter="255" label="Commentaire" autofocus required></v-textarea>
                                 </v-form>
                                 <v-btn :disabled="!valid" class="success ma-2" @click="sendCom(post.id)">Poster</v-btn>
                                 <!--<p v-if="msg">{{ message }}</p>-->
@@ -151,9 +151,14 @@ export default {
             valid: true,
             titleRules: [
                 v => !!v || 'Title is required',
+                v => (v && v.length <= 50) || 'Title must be less than 50 characters',
             ],
             contentRules: [
                 v => !!v || 'Content is required',
+            ],
+            comContentRules: [
+                v => !!v || 'Comment is required',
+                v => (v && v.length <= 50) || 'Comment must be less than 50 characters',
             ],
             dataPost: {
                 id: "",
@@ -183,7 +188,7 @@ export default {
         }
     },
     methods: {
-       
+        
         afficheCom(pId){
             this.postId = pId;
             this.afficheFrmCm = false;
@@ -332,8 +337,8 @@ export default {
         likePost(postId, nbLikes){
             //console.log(this.dataLike.liked);
             this.allLikes.forEach(element => {
-                if(element.postId === postId && element.userId === localStorage.userId){
-                    //console.log('dans le if');
+                if(element.postId == postId && element.userId == localStorage.userId){
+                    console.log('dans le if');
                     this.dataLike.nbLikes = nbLikes+-1;
                     this.dataLike.liked = true;
                     
@@ -343,8 +348,8 @@ export default {
                     //this.dataLike.liked = false;
                 //}
             });
-            if(this.dataLike.liked === false){
-                //console.log('dans le 2eme if');
+            if(this.dataLike.liked == false){
+                console.log('dans le 2eme if');
                 this.dataLike.nbLikes = nbLikes+1;
             }
             
@@ -393,12 +398,12 @@ export default {
                 let likes = JSON.parse(response.data);
                 //console.log(likes);
                 this.allLikes = likes;
-                //console.log(this.allLikes);
+                console.log(this.allLikes);
             })
             .catch(error => {
                 console.log(error)
             });
-
+        
         /*axios.get("http://localhost:3000/api/posts/comments")
                 .then(response => {
                     this.nbCom=response.data;

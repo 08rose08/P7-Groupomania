@@ -15,7 +15,7 @@
                         </v-card-title>
 
                         <v-card-subtitle class=" mur__post__name">
-                            By {{ post.firstName }} {{ post.lastName }}, le {{ post.date }}
+                            Par {{ post.firstName }} {{ post.lastName }}, le {{ post.date }}
                         </v-card-subtitle>
 
                         <v-card-text class="v-card-text black--text mur__post__content" >
@@ -111,7 +111,7 @@ export default {
                 //console.log(response.data);
                 let posts = JSON.parse(response.data);
                 this.allPosts = posts;
-                console.log(this.allPosts);
+                //console.log(this.allPosts);
             })
             .catch(error => {
             console.log(error); //affiche pas le message 'normalement' envoyé par le back
@@ -122,7 +122,7 @@ export default {
                     let com = JSON.parse(response.data);
                     //console.log(com);
                     this.allComments = com;
-                    console.log(this.allComments);
+                    //console.log(this.allComments);
                 })
                 .catch(error => {
                 console.log(error);

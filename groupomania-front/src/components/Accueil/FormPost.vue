@@ -9,7 +9,7 @@
             
             <v-card-text>
                 <v-form ref="form" class="ma-3" v-model="valid" >
-                    <v-text-field v-model="dataPost.title" :rules="titleRules" label="Title" autofocus required></v-text-field>
+                    <v-text-field v-model="dataPost.title" :rules="titleRules" :counter="50" label="Title" autofocus required></v-text-field>
                     <v-textarea v-model="dataPost.content" :rules="contentRules" label="Content" required></v-textarea>
                 </v-form>
             </v-card-text>
@@ -35,6 +35,8 @@ export default {
             valid: true,
             titleRules: [
                 v => !!v || 'Title is required',
+                v => (v && v.length <= 50) || 'Title must be less than 50 characters',
+
             ],
             contentRules: [
                 v => !!v || 'Content is required',
