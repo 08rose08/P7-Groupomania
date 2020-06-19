@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-//import Home from '../views/Home.vue'
 import Auth from '../components/Auth.vue'
 import Accueil from '../components/Accueil.vue'
 import Profil from '../components/Accueil/Profil.vue'
