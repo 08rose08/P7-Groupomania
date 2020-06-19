@@ -76,7 +76,6 @@ export default {
                 { title: 'Accueil', icon: 'mdi-home-outline', link: '/Accueil'  },
                 { title: 'Profil', icon: 'mdi-account-circle', link: '/Accueil/Profil'},
                 { title: 'Mur', icon: 'mdi-view-dashboard-outline', link: '/Accueil/Mur' },
-                //{ title: 'Se déconnecter', icon: 'mdi-exit-to-app', link: '' },
             ],
         }
     },
@@ -85,7 +84,6 @@ export default {
             localStorage.userId = "";
             localStorage.token = "";
             localStorage.moderation = "";
-            //console.log(this.$store.state.authObj);
              this.$router.push('/');
         },
         moderation(){
@@ -94,7 +92,6 @@ export default {
     },
     mounted(){
         this.modo = localStorage.moderation;
-        //console.log(this.modo);
     },
 }
 </script>
@@ -106,7 +103,6 @@ export default {
         
     }
     a:hover {
-        //text-decoration: underline white;
         color: white!important
             
     }
@@ -116,13 +112,4 @@ export default {
     .lien{
         cursor: pointer;
     }
-    /*.hhead {
-        
-        background-color: rgb(253,45,1);
-        color: black;
-        position: fixed;
-        top: 0;
-        width: 100%;
-
-    }*/
 </style>

@@ -18,9 +18,6 @@
                 <v-btn  :disabled="!valid" class="success" @click="sendPost">Poster</v-btn>
             </v-card-actions>
         </v-card>
-        
-        
-        <!--<p v-if="msg">{{ message }}</p> -->
     </v-app>
 </template>
 <script>
@@ -49,8 +46,6 @@ export default {
             dataPostS: "",
             msg: false,
             message: "",
-            
-            
         }
     },
     methods: {
@@ -58,7 +53,6 @@ export default {
             this.dataPostS = JSON.stringify(this.dataPost);
             axios.post("http://localhost:3000/api/posts/", this.dataPostS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
-                    //console.log(response);
                     let rep = JSON.parse(response.data);
                     this.message = rep.message;
                     this.msg = true;
@@ -67,7 +61,7 @@ export default {
                     
                 })
                 .catch(error => {
-                    console.log(error); //affiche pas le message 'normalement' envoyé par le back
+                    console.log(error); 
                     this.message = error;
                     this.msg = true
                 });

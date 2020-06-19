@@ -9,7 +9,6 @@ exports.getAllPosts = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     const mod = decodedToken.moderation;
-    //console.log(mod);
     if(mod == 1){
         modManager.getAllPosts()
             .then((response) => {
@@ -33,7 +32,6 @@ exports.deletePost = (req, res, next) => {
         let sqlInserts = [postId];
         modManager.deletePost(sqlInserts)
             .then((response) => {
-                //console.log(response);
                 res.status(200).json(JSON.stringify(response));
             })
             /*.catch((error) =>{
@@ -47,7 +45,6 @@ exports.getAllComments = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     const mod = decodedToken.moderation;
-    //console.log(mod);
     if(mod == 1){
         modManager.getAllComments()
             .then((response) =>{
@@ -61,7 +58,6 @@ exports.deleteComment = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     const mod = decodedToken.moderation;
-    //console.log(mod);
     if(mod == 1){
         let commentId = req.params.id;
         let sqlInserts = [commentId];

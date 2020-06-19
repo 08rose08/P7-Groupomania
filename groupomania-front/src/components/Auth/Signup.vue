@@ -10,23 +10,8 @@
                 </v-form>
                 <v-btn :disabled="!valid" class="success" @click="sendSignup()">Envoyer</v-btn>
                 <p v-if="msg">{{ message }}</p>
-
             </v-card-text>
         </v-card>
-            <!--<label for="prenom">Prénom :</label>
-            <input v-model="dataSignup.firstName" type="text" id="prenom">
-
-            <label for="nom">Nom :</label>
-            <input v-model="dataSignup.lastName" type="text" id="nom">
-
-            <label for="email">Email :</label>
-            <input v-model="dataSignup.email" type="email" id="email">
-
-            <label for="password">Mot de passe :</label>
-            <input v-model="dataSignup.password" type="password" id="password">-->
-
-            <!--button @click.prevent="sendSignup">Envoyer</button>-->
-
     </v-app>
 </template>
 <script>
@@ -64,7 +49,6 @@ export default {
             this.dataSignupS = JSON.stringify(this.dataSignup)
             axios.post('http://localhost:3000/api/auth/signup', this.dataSignupS, {headers: {'Content-Type': 'application/json'}})
             .then(response => {
-                //console.log(response);
                 let sign = JSON.parse(response.data);
                 this.message = sign.message;
                 this.form = false;
@@ -75,8 +59,6 @@ export default {
                 this.message = error;
                 this.msg = true; 
                 });
-            
-
         }
     }
 }
@@ -87,9 +69,6 @@ export default {
         top : 5%;
         width: 350px;
         max-height: 200px;
-        //width: 50%!important;
         text-align: center;
-        
-        
     }
 </style>

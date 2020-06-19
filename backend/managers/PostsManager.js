@@ -14,57 +14,54 @@ class PostsManager {
         return new Promise((resolve) =>{
             connectdb.query(sql, function (err, result, fields) {
                 if (err) throw err;
-                console.log(result);
                 resolve(result)
             });
         })
     }
     createPost(sqlInserts){
-        let sql = "INSERT INTO posts VALUES(NULL, ?, ?, ?, NOW(), 0)";
+        let sql = 'INSERT INTO posts VALUES(NULL, ?, ?, ?, NOW(), 0)';
         sql = mysql.format(sql, sqlInserts);
         return new Promise((resolve) =>{
             connectdb.query(sql, function (err, result, fields) {
                 if (err) throw err;
-                resolve({message : 'New post !'});
+                resolve({message : 'Nouveau post !'});
             })       
         })
     }
     updatePost(sqlInserts1, sqlInserts2){
-        let sql1 = "SELECT * FROM posts where id = ?";
+        let sql1 = 'SELECT * FROM posts where id = ?';
         sql1 = mysql.format(sql1, sqlInserts1);
         return new Promise((resolve) =>{
             connectdb.query(sql1, function (err, result, fields){
                 if (err) throw err;
-                //console.log(result[0].userId);
                 if(sqlInserts2[3] == result[0].userId){
-                    let sql2 = "UPDATE posts SET title = ?, content = ? WHERE id = ? AND userId = ?";
+                    let sql2 = 'UPDATE posts SET title = ?, content = ? WHERE id = ? AND userId = ?';
                     sql2 = mysql.format(sql2, sqlInserts2);
                     connectdb.query(sql2, function (err, result, fields){
                         if (err) throw err;
-                        resolve({message : 'Post updated !'});
+                        resolve({message : 'Post modifié !'});
                     })
                 }else{
-                    reject({error: "fonction indisponible"});
+                    reject({error: 'fonction indisponible'});
                 }
             })
         });
     }
     deletePost(sqlInserts1, sqlInserts2){
-        let sql1 = "SELECT * FROM posts where id = ?";
+        let sql1 = 'SELECT * FROM posts where id = ?';
         sql1 = mysql.format(sql1, sqlInserts1);
         return new Promise((resolve, reject) =>{
             connectdb.query(sql1, function (err, result, fields){
                 if (err) throw err;
-                console.log(result[0].userId);
                 if(sqlInserts2[1] == result[0].userId){
-                    let sql2 = "DELETE FROM posts WHERE id = ? AND userId = ?";
+                    let sql2 = 'DELETE FROM posts WHERE id = ? AND userId = ?';
                     sql2 = mysql.format(sql2, sqlInserts2);
                     connectdb.query(sql2, function (err, result, fields){
                         if (err) throw err;
-                        resolve({message : 'Post deleted !'});
+                        resolve({message : 'Post supprimé !'});
                     })
                 }else{
-                    reject({error: "fonction indisponible"});
+                    reject({error: 'fonction indisponible'});
                 }
             
             });
@@ -85,71 +82,49 @@ class PostsManager {
         })
     }
     createComment(sqlInserts){
-        let sql = "INSERT INTO comments VALUES(NULL, ?, ?, NOW(), ?)";
+        let sql = 'INSERT INTO comments VALUES(NULL, ?, ?, NOW(), ?)';
         sql = mysql.format(sql, sqlInserts);
         return new Promise((resolve) =>{
             connectdb.query(sql, function (err, result, fields){
                 if (err) throw err;
-                resolve({message : 'New comment !'})
+                resolve({message : 'Nouveau commentaire !'})
             })
         })
     }
-    /*updateComment(sqlInserts){
-        let sql = "UPDATE comments SET comContent = ? WHERE id = ?";
-        sql = mysql.format(sql, sqlInserts);
-        return new Promise((resolve) =>{
-            connectdb.query(sql, function (err, result, fields){
-                if (err) throw err;
-                resolve({message : 'Comment updated !'});
-            })
-        })
-    }*/
     updateComment(sqlInserts1, sqlInserts2){
-        let sql1 = "SELECT * FROM comments where id = ?";
+        let sql1 = 'SELECT * FROM comments where id = ?';
         sql1 = mysql.format(sql1, sqlInserts1);
         return new Promise((resolve) =>{
             connectdb.query(sql1, function (err, result, fields){
                 if (err) throw err;
-                //console.log(result[0].userId);
                 if(sqlInserts2[2] == result[0].userId){
-                    let sql2 = "UPDATE comments SET comContent = ? WHERE id = ? AND userId = ?";
+                    let sql2 = 'UPDATE comments SET comContent = ? WHERE id = ? AND userId = ?';
                     sql2 = mysql.format(sql2, sqlInserts2);
                     connectdb.query(sql2, function (err, result, fields){
                         if (err) throw err;
-                        resolve({message : 'Comment updated !'});
+                        resolve({message : 'Commentaire modifié !'});
                     })
                 }else{
-                    reject({error: "fonction indisponible"});
+                    reject({error: 'fonction indisponible'});
                 }
             })
         });
     }
-    /*deleteComment(sqlInserts){
-        let sql = "DELETE FROM comments WHERE id = ?";
-        sql = mysql.format(sql, sqlInserts);
-        return new Promise((resolve) =>{
-            connectdb.query(sql, function (err, result, fields){
-                if (err) throw err;
-                resolve({message : 'Comment deleted !'});
-            })
-        })
-    }*/
     deleteComment(sqlInserts1, sqlInserts2){
-        let sql1 = "SELECT * FROM comments where id = ?";
+        let sql1 = 'SELECT * FROM comments where id = ?';
         sql1 = mysql.format(sql1, sqlInserts1);
         return new Promise((resolve, reject) =>{
             connectdb.query(sql1, function (err, result, fields){
                 if (err) throw err;
-                console.log(result[0].userId);
                 if(sqlInserts2[1] == result[0].userId){
-                    let sql2 = "DELETE FROM comments WHERE id = ? AND userId = ?";
+                    let sql2 = 'DELETE FROM comments WHERE id = ? AND userId = ?';
                     sql2 = mysql.format(sql2, sqlInserts2);
                     connectdb.query(sql2, function (err, result, fields){
                         if (err) throw err;
-                        resolve({message : 'Comment deleted !'});
+                        resolve({message : 'Commentaire supprimé !'});
                     })
                 }else{
-                    reject({error: "fonction indisponible"});
+                    reject({error: 'fonction indisponible'});
                 }
             
             });
@@ -160,7 +135,7 @@ class PostsManager {
 // LIKES
     
     getAllLikes(){
-        let sql = "SELECT * FROM likes"
+        let sql = 'SELECT * FROM likes';
         return new Promise((resolve) =>{
             connectdb.query(sql, function (err, result, fields) {
                 if (err) throw err;
@@ -169,11 +144,11 @@ class PostsManager {
         })
     }
     postLike(sqlInserts1, sqlInserts2, liked){
-        let sql1 = "INSERT INTO likes VALUES (NULL, ?, ?)"; 
+        let sql1 = 'INSERT INTO likes VALUES (NULL, ?, ?)'; 
         sql1 = mysql.format(sql1, sqlInserts1);
-        let sql2 = "UPDATE posts SET likes = ? WHERE id = ?";
+        let sql2 = 'UPDATE posts SET likes = ? WHERE id = ?';
         sql2 = mysql.format(sql2, sqlInserts2);
-        let sql3 = "DELETE FROM likes WHERE postId = ? AND userId = ?";
+        let sql3 = 'DELETE FROM likes WHERE postId = ? AND userId = ?';
         sql3 = mysql.format(sql3, sqlInserts1);
         return new Promise((resolve) =>{
             connectdb.query(sql2, function (err, result, fields){
@@ -189,7 +164,7 @@ class PostsManager {
             if(liked === true){
                 connectdb.query(sql3, function(err, result, fields){
                     if(err) throw err;
-                    resolve({ message : 'Like canceled!' })
+                    resolve({ message : 'Like annulé!' })
                 })
             }
         })

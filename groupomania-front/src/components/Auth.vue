@@ -3,7 +3,7 @@
         
         <v-container class="auth">
 
-            <div class="auth__boutons"> <!--v-if="afficheBtns"-->
+            <div class="auth__boutons">
                 <v-btn class="auth__boutons--ind" @click="component='login'">Se connecter</v-btn>
                 <v-btn class="auth__boutons--ind" @click="component='signup'">S'inscrire</v-btn>
             </div>
@@ -22,15 +22,11 @@
         name : "Auth",
         data(){
             return{
-                afficheBtns: false,
+                
                 component: ""
             }
         },
-        methods: {
-            afficheBoutons(){
-                this.afficheBtns=true
-            },
-        },
+        
         components: {
             'login': Login,
             'signup': Signup
@@ -44,10 +40,6 @@
 
     }
     .auth {
-        //text-align: center;
-        //display: flex;
-        //flex-direction: column;
-        //align-items: center;
         &__boutons{
             display: flex;
             flex-direction: row;
@@ -55,7 +47,6 @@
             margin-top: 25%;
             &--ind{
                 margin-top: 5%;
-                //width: 20%;
                 width: 150px ;
                 
             }

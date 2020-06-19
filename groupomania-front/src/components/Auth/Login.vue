@@ -40,35 +40,18 @@ export default {
         }
     },
     methods: {
-        /*validate(){
-            this.$refs.form.validate()
-        },*/
         sendLogin(){
-            //console.log(this.dataLogin);
             this.dataLoginS = JSON.stringify(this.dataLogin);
-            //console.log(this.dataLoginS);
             axios.post('http://localhost:3000/api/auth/login', this.dataLoginS, {headers: {'Content-Type': 'application/json'}})
                 .then(response => {
-                    //console.log(response.data);
                     let log = JSON.parse(response.data);
-                    //console.log(log);
-                    //console.log(response.data.userId);
-                    //console.log(response.data.token);
-                    
-                    //this.$store.state.authObj.userId = log.userId;
-                    //this.$store.state.authObj.token = log.token;
-
                     localStorage.userId = log.userId;
                     localStorage.token = log.token;
                     localStorage.moderation = log.moderation;
-                    
-                    //console.log(localStorage.token);
-
-                    //console.log(this.$store.state.authObj);
                     this.$router.push('/Accueil');  
                 })
                 .catch(error => {
-                    console.log(error); //affiche pas le message 'normalement' envoyé par le back
+                    console.log(error);
                     this.message = error;
                     this.msg = true 
                 }); 
@@ -82,9 +65,6 @@ export default {
         top : 5%;
         width: 350px;
         max-height: 200px;
-        //width: 50%!important;
         text-align: center;
-        
-        
     }
 </style>

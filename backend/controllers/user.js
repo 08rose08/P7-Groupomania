@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-//à changer avec passeport-jwt ? http://www.passportjs.org/packages/passport-jwt/
 const jwt = require('jsonwebtoken');
 const connectdb = require('../connectdb.js');
 const mysql = require('mysql');
@@ -9,7 +8,6 @@ let userManager = new UserManager();
 
 
 exports.signup = (req, res, next) => {
-    //let signupData = JSON.parse(req.body)
     let email = req.body.email;
 	let password = req.body.password;
 	let firstName = req.body.firstName;
@@ -30,9 +28,6 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-    //console.log(req.body);
-    //let loginData = JSON.parse(req.body); 
-    //console.log(loginData);
     let email = req.body.email;
     //if (email === undefined){res.status(400).json({error: 'Undefined email'})};
     let password = req.body.password;
@@ -40,39 +35,17 @@ exports.login = (req, res, next) => {
     let sqlInserts = [email];
     userManager.login(sqlInserts, password)
         .then((response) =>{
-            //console.log(JSON.stringify(response));
             res.status(200).json(JSON.stringify(response))
         })
         .catch((error) =>{
             res.status(400).json(error)
         })
-    /*connectdb.query(sql, function(err, result){
-        if (err) throw err;
-        // envoyer message utilisateur inexistant ?;
-        bcrypt.compare(password, result[0].password) // result.password ?? result[0].password ?
-            .then(valid => { 
-                if (!valid) {return res.status(400).json({ error: 'Incorrect password !' })}
-                res.status(200).json({
-                    userId: result[0].id, // result[0].id?
-                    token: jwt.sign(
-                        { userId: result[0].id }, //result[0].id ??
-                        'RANDOM_TOKEN_SECRET',
-                        { expiresIn: '24h' } //+/- journée de travail 8+1h
-                    )
-                });
-            })
-            .catch(error => res.status(500).json({ error }));
-    })*/
 }
 exports.seeMyProfile = (req, res, next) => {
-    //let userId = req.params.id;
-
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     const userId = decodedToken.userId;
-
     let sqlInserts = [userId];
-    //console.log('avant le manager');
     userManager.seeMyProfile(sqlInserts)
         .then((response) =>{
             res.status(200).json(JSON.stringify(response))
@@ -83,12 +56,9 @@ exports.seeMyProfile = (req, res, next) => {
         })
 }   
 exports.updateUser = (req, res, next) => {
-    //let userId = req.params.id;
-    
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     const userId = decodedToken.userId;
-
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
     let email = req.body.email;
@@ -115,7 +85,5 @@ exports.deleteUser = (req, res, next) => {
         })
 } 
  
-/*exports.uptadeUser= (req, res, next) => {
 
-}*/
 

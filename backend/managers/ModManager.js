@@ -13,24 +13,22 @@ class ModManager {
         return new Promise((resolve) =>{
             connectdb.query(sql, function (err, result, fields) {
                 if (err) throw err;
-                //console.log(result);
                 resolve(result)
             });
         })
     };
     deletePost(sqlInserts){
-        let sql = "DELETE FROM posts WHERE id = ?";
+        let sql = 'DELETE FROM posts WHERE id = ?';
         sql = mysql.format(sql, sqlInserts);
         return new Promise((resolve) =>{
             connectdb.query(sql, function (err, result, fields){
                 if (err) throw err;
-                resolve({message : 'Post deleted !'});
+                resolve({message : 'Post supprimé !'});
             })
         })
     };
     getAllComments(){
         let sql = "SELECT comments.comContent, DATE_FORMAT(comments.date, '%d/%m/%Y à %H:%i:%s') AS date, comments.id, comments.userId, users.firstName, users.lastName FROM comments JOIN users on comments.userId = users.id ORDER BY date DESC";
-        //sql = mysql.format(sql, sqlInserts);
         return new Promise((resolve) =>{
             connectdb.query(sql, function (err, result, fields){
                 if (err) throw err;
@@ -40,12 +38,12 @@ class ModManager {
         })
     };
     deleteComment(sqlInserts){
-        let sql = "DELETE FROM comments WHERE id = ?";
+        let sql = 'DELETE FROM comments WHERE id = ?';
         sql = mysql.format(sql, sqlInserts);
         return new Promise((resolve) =>{
             connectdb.query(sql, function (err, result, fields){
                 if (err) throw err;
-                resolve({message : 'Comment deleted !'});
+                resolve({message : 'Commentaire supprimé !'});
             })
         })
     }

@@ -26,8 +26,6 @@
                         <v-text-field v-model="dataUp.firstName" :rules="nameRules" label="Prénom" prepend-icon="mdi-account-circle" required></v-text-field>
                         <v-text-field  v-model="dataUp.lastName" :rules="nameRules" label="Nom" prepend-icon="mdi-account-circle" required></v-text-field>
                         <v-text-field v-model="dataUp.email" :rules="emailRules" label="e-mail" prepend-icon="mdi-at" required></v-text-field>
-                        <!--<v-text-field v-model="dataUp.password1" :rules="pass1Rules" type="password" label="mot de passe" prepend-icon="mdi-lock" ></v-text-field>
-                        <v-text-field v-model="dataUp.password2" :rules="pass2Rules" type="password" label="mot de passe" prepend-icon="mdi-lock"></v-text-field>-->
                     </v-form>
                 </v-card-text>
                 <v-card-actions>
@@ -107,12 +105,10 @@ export default {
             
             axios.delete("http://localhost:3000/api/auth/", {headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response => {
-                //console.log(response.data);
                 let rep = JSON.parse(response.data);
                 console.log(rep);
                 localStorage.userId = "";
                 localStorage.token = "";
-                //console.log(this.$store.state.authObj);
                 this.$router.push('/');  
             })
             .catch(error => {
@@ -121,17 +117,11 @@ export default {
             })
         },
         updateUser() {
-            //console.log("c'est cliqué");
             this.dataUpS = JSON.stringify(this.dataUp);
             axios.put("http://localhost:3000/api/auth/", this.dataUpS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
             .then(response => {
-                //console.log(response.data);
                 let rep = JSON.parse(response.data);
                 console.log(rep);
-                //this.$store.state.authObj.userId = "";
-                //this.$store.state.authObj.token = "";
-                //console.log(this.$store.state.authObj);
-                //this.$router.push('/');
                 this.dialogUp = false;
                 window.location.assign('http://localhost:8080/Accueil/Profil');
             })
@@ -142,16 +132,9 @@ export default {
         }
     },
     mounted() { 
-        //console.log("mounted");
-        //console.log(localStorage.userId);
-        //axios.get("http://localhost:3000/api/auth/" + this.$store.state.authObj.userId, {headers: {Authorization: 'Bearer ' + this.$store.state.authObj.token}})
         axios.get("http://localhost:3000/api/auth/", {headers: {Authorization: 'Bearer ' + localStorage.token}})
-
             .then(response => {
-                //console.log("consoleLog du front");
-                //console.log(response.data);
                 let profil = JSON.parse(response.data);
-                //console.log(profil);
                 this.dataGet.email = profil[0].email;
                 this.dataGet.firstName = profil[0].firstName;
                 this.dataGet.lastName = profil[0].lastName;
@@ -161,7 +144,6 @@ export default {
             })
             .catch(error => {
                 console.log(error);
-                //affiche pas le message 'normalement' envoyé par le back
             });    
     },
     

@@ -2,9 +2,7 @@
     <v-app id="moderation" class="moderation">
         <top-header/>
         <div class="ml-12">
-
             <h1 class="ma-4">Modération</h1>
-
             <v-container>
                 <v-btn class="ma-3" @click="clickPosts">Posts</v-btn>
                 <v-btn class="ma-3" @click="clickComments">Commentaires</v-btn>
@@ -82,7 +80,6 @@ export default {
         deletePost(pId){
             axios.delete("http://localhost:3000/api/moderation/post/" + pId, {headers: {Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
-                    //console.log(response);
                     let rep = JSON.parse(response.data);
                     console.log(rep.message);
                     window.location.assign('http://localhost:8080/Accueil/Moderation');
@@ -95,7 +92,6 @@ export default {
         deleteComment(cId){
             axios.delete("http://localhost:3000/api/moderation/comment/" + cId, {headers: {Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
-                    //console.log(response);
                     let rep = JSON.parse(response.data);
                     console.log(rep.message);
                     window.location.assign('http://localhost:8080/Accueil/Moderation');
@@ -108,21 +104,16 @@ export default {
     mounted(){
         axios.get("http://localhost:3000/api/moderation/posts", {headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response => {
-                //console.log(response.data);
                 let posts = JSON.parse(response.data);
                 this.allPosts = posts;
-                //console.log(this.allPosts);
             })
             .catch(error => {
-            console.log(error); //affiche pas le message 'normalement' envoyé par le back
+            console.log(error); 
             });
         axios.get("http://localhost:3000/api/moderation/comments", {headers: {Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
-                    //console.log(response);
                     let com = JSON.parse(response.data);
-                    //console.log(com);
                     this.allComments = com;
-                    //console.log(this.allComments);
                 })
                 .catch(error => {
                 console.log(error);

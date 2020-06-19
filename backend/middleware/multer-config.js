@@ -1,3 +1,5 @@
+//si besoin d'images par la suite : avatar etc.
+
 const multer = require('multer');
 const path = require('path');
 
