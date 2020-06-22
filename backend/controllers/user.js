@@ -26,12 +26,12 @@ exports.signup = (req, res, next) => {
         })
         .catch(error => res.status(500).json(error)) 
 };
+//if (email === undefined){res.status(400).json({error: 'Undefined email'})};
+//if (password === undefined){res.status(400).json({error: 'Undefined password'})};
 
 exports.login = (req, res, next) => {
     let email = req.body.email;
-    //if (email === undefined){res.status(400).json({error: 'Undefined email'})};
     let password = req.body.password;
-    //if (password === undefined){res.status(400).json({error: 'Undefined password'})};
     let sqlInserts = [email];
     userManager.login(sqlInserts, password)
         .then((response) =>{
@@ -73,7 +73,10 @@ exports.updateUser = (req, res, next) => {
 }
  
 exports.deleteUser = (req, res, next) => {
-    let userId = req.params.id;
+    //let userId = req.params.id;
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
     let sqlInserts = [userId];
     userManager.deleteUser(sqlInserts)
         .then((response) =>{

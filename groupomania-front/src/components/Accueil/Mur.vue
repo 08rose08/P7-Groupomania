@@ -192,8 +192,8 @@ export default {
         sendCom(pId){
             this.dataCom.userId = this.userId;
             this.dataComS = JSON.stringify(this.dataCom);
-            console.log(this.dataComS);
-            console.log(localStorage.token);
+            //console.log(this.dataComS);
+            //console.log(localStorage.token);
             axios.post("http://localhost:3000/api/posts/" + pId + "/comments", this.dataComS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
                     let rep = JSON.parse(response.data);
@@ -328,7 +328,7 @@ export default {
             .then(response =>{
                 let likes = JSON.parse(response.data);
                 this.allLikes = likes;
-                console.log(this.allLikes);
+                //console.log(this.allLikes);
             })
             .catch(error => {
                 console.log(error)

@@ -10,7 +10,7 @@ class UserManager {
         console.log('coucou du UserManager')
     }
     signup(sqlInserts){
-        let sql = 'INSERT INTO users VALUES(NULL, ?, ?, ?, ?)';
+        let sql = 'INSERT INTO users VALUES(NULL, ?, ?, ?, ?, NULL)';
         sql = mysql.format(sql, sqlInserts);
         return new Promise((resolve, reject) =>{
             connectdb.query(sql, function(err, result){
@@ -29,7 +29,7 @@ class UserManager {
             connectdb.query(sql, function(err, result){
                 if (err) reject({ err });
                 // envoyer message utilisateur inexistant ?;
-                console.log(result[0]);
+                //console.log(result[0]);
                 if (!result[0]){
                     reject ({ error : 'Utilisateur introuvable !'});
                 } else {
